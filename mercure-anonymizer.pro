@@ -1,6 +1,6 @@
-QT -= gui core
-
-CONFIG -= console
+QT += core
+QT -= gui
+CONFIG += console
 CONFIG -= app_bundle
 
 # The following define makes your compiler emit warnings if you use
