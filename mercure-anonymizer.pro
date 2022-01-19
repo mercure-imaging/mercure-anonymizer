@@ -21,6 +21,7 @@ LIBS += -ldcmdata -loflog -lofstd
 LIBS += -lz -ldl -lpthread
 
 SOURCES += main.cpp
+SOURCES += settings.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

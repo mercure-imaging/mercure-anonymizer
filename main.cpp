@@ -12,6 +12,7 @@
 #include "dcmtk/dcmdata/dctypes.h"
 
 #include "global.h"
+#include "settings.h"
 
 
 bool readSettings()
@@ -83,7 +84,7 @@ bool readSettings()
 
 bool processFile(QFileInfo currentFile)
 {
-    OUT("  File " + currentFile.fileName().toStdString())
+    //OUT("  File " + currentFile.fileName().toStdString())
 
     OFString inputFilename = OFString(currentFile.absoluteFilePath().toUtf8().constData());
     OFString outputFilename = OFString(outputDir.filePath(currentFile.completeBaseName() + "_mod.dcm").toUtf8().constData());
@@ -94,6 +95,15 @@ bool processFile(QFileInfo currentFile)
     {
         OUT("Unable to read DICOM file " << currentFile.fileName().toStdString());
         return false;
+    }
+
+    if (!settings.isPrepared)
+    {
+        QString projectName = "";
+        
+        // TODO: Get project name from retriving AET
+
+        settings.prepareSettings(projectName);
     }
 
     OFString buffer = "";
