@@ -13,17 +13,18 @@
 
 #include "global.h"
 #include "settings.h"
+#include "runtime.h"
 
 
 bool readSettings()
 {
-    if (!inputDir.exists(TASKFILE))
+    if (!RTI->inputDir.exists(TASKFILE))
     {
         OUT("ERROR: Task file not found")
         return false;
     }
 
-    QFile settingsFile(inputDir.filePath(TASKFILE));
+    QFile settingsFile(RTI->inputDir.filePath(TASKFILE));
     if (!settingsFile.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         OUT("ERROR: Unable to open task file")
@@ -59,20 +60,20 @@ bool readSettings()
         return false;
     }
 
-    settingsJson = process.value("settings").toObject();
+    RTI->settingsJson = process.value("settings").toObject();
 
-    if (settingsJson.value("general").toObject().value("mode").toString()=="whitelist")
+    if (RTI->settingsJson.value("general").toObject().value("mode").toString()=="whitelist")
     {
-        settings.mode=SETTINGS_MODE_WHITELIST;
+        RTI->settings.mode=SETTINGS_MODE_WHITELIST;
         OUT("Using whitelist mode")
     }
     else
     {
-        settings.mode=SETTINGS_MODE_BLACKLIST;
+        RTI->settings.mode=SETTINGS_MODE_BLACKLIST;
         OUT("Using blacklist mode")
     }
 
-    if (settings.mode==SETTINGS_MODE_WHITELIST)
+    if (RTI->settings.mode==SETTINGS_MODE_WHITELIST)
     {
         OUT("ERROR: The whitelist mode has not been implemented yet")
         return false;
@@ -85,9 +86,8 @@ bool readSettings()
 bool processFile(QFileInfo currentFile)
 {
     //OUT("  File " + currentFile.fileName().toStdString())
-
     OFString inputFilename = OFString(currentFile.absoluteFilePath().toUtf8().constData());
-    OFString outputFilename = OFString(outputDir.filePath(currentFile.completeBaseName() + "_mod.dcm").toUtf8().constData());
+    OFString outputFilename = OFString(RTI->outputDir.filePath(currentFile.completeBaseName() + "_mod.dcm").toUtf8().constData());
     DcmFileFormat dcmFile;
     OFCondition readStatus = dcmFile.loadFile(inputFilename);
 
@@ -97,26 +97,47 @@ bool processFile(QFileInfo currentFile)
         return false;
     }
 
-    if (!settings.isPrepared)
+    if (!RTI->settings.isPrepared)
     {
         QString projectName = "";
-        
-        // TODO: Get project name from retriving AET
 
-        settings.prepareSettings(projectName);
+        // Get project name from retriving AET
+        OFString projectBuffer = "";    
+        if ((dcmFile.getDataset()->tagExistsWithValue(DCM_StudyDescription)) && (!dcmFile.getDataset()->findAndGetOFString(DCM_RetrieveAETitle, projectBuffer).good())) 
+        {
+            OUT("Unable to read RetrieveAETitle from file " << currentFile.fileName().toStdString());
+            OUT("Unable to determine target project. Aborting")
+            return false;
+        }    
+        projectName = QString(projectBuffer.c_str());
+        if (!projectName.startsWith(AET_PREFIX, Qt::CaseSensitive))
+        {
+            OUT("Invalid format of RetrieveAETitle in file " << currentFile.fileName().toStdString());
+            return false;            
+        }
+        // Chop the prefix from the front of the AET
+        projectName.remove(0,QString(AET_PREFIX).length());
+
+        // Compose the processing settings based on the selected project name
+        RTI->settings.prepareSettings(projectName);
     }
 
-    OFString buffer = "";
-    if ((dcmFile.getDataset()->tagExistsWithValue(DCM_StudyDescription)) && (!dcmFile.getDataset()->findAndGetOFString(DCM_StudyDescription, buffer).good())) 
+    for (int i=0; i<RTI->settings.tags.length(); i++)
     {
-        OUT("Unable to read tag from file " << currentFile.fileName().toStdString());                                                                       
-        return false;
-    }    
-
-    buffer = "YOYOYO";
-    dcmFile.getDataset()->putAndInsertString(DCM_StudyDescription, buffer.c_str());
+        /*
+        OFString buffer = "";
+        if ((dcmFile.getDataset()->tagExistsWithValue(DCM_StudyDescription)) && (!dcmFile.getDataset()->findAndGetOFString(DCM_StudyDescription, buffer).good())) 
+        {
+            OUT("Unable to read tag from file " << currentFile.fileName().toStdString());                                                                       
+            return false;
+        }    
+        buffer = "YOYOYO";
+        dcmFile.getDataset()->putAndInsertString(DCM_StudyDescription, buffer.c_str());
+        */
+    }
 
     OFCondition writeStatus = dcmFile.saveFile(outputFilename);
+    // TODO: Error logging
 
     return true;
 }
@@ -126,21 +147,21 @@ bool processFiles()
 {
     QStringList nameFilter;
     nameFilter << "*.dcm";
-    inputFiles=inputDir.entryInfoList(nameFilter, QDir::NoDotAndDotDot | QDir::Files, QDir::Name);
+    RTI->inputFiles=RTI->inputDir.entryInfoList(nameFilter, QDir::NoDotAndDotDot | QDir::Files, QDir::Name);
 
     QString currentSeries = "";
 
-    for (int i = 0; i < inputFiles.size(); ++i) 
+    for (int i = 0; i < RTI->inputFiles.size(); ++i) 
     {
-        QString seriesUID = inputFiles.at(i).fileName().split(SEPARATOR)[0];
+        QString seriesUID = RTI->inputFiles.at(i).fileName().split(SEPARATOR)[0];
         if (seriesUID != currentSeries)
         {
             currentSeries = seriesUID;
             OUT("Processing series " << currentSeries.toStdString());
         }
-        if (!processFile(inputFiles.at(i)))
+        if (!processFile(RTI->inputFiles.at(i)))
         {
-            OUT("ERROR: Unable to process file " << inputFiles.at(i).fileName().toStdString())
+            OUT("ERROR: Unable to process file " << RTI->inputFiles.at(i).fileName().toStdString())
             OUT("Aborting")
             return false;
         }
@@ -163,13 +184,13 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    inputFolder = QString(argv[1]);
-    outputFolder = QString(argv[2]);
+    RTI->inputFolder = QString(argv[1]);
+    RTI->outputFolder = QString(argv[2]);
 
-    inputDir.setPath(inputFolder);
-    outputDir.setPath(outputFolder);
+    RTI->inputDir.setPath(RTI->inputFolder);
+    RTI->outputDir.setPath(RTI->outputFolder);
 
-    if (!inputDir.exists() || !outputDir.exists())
+    if (!RTI->inputDir.exists() || !RTI->outputDir.exists())
     {
         OUT("ERROR: Input or output folder does not exist")
         return 1;

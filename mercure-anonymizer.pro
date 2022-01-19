@@ -22,6 +22,7 @@ LIBS += -lz -ldl -lpthread
 
 SOURCES += main.cpp
 SOURCES += settings.cpp
+SOURCES += runtime.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
