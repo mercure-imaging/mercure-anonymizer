@@ -8,8 +8,6 @@
 #define TASKFILE "task.json"
 #define SEPARATOR '#'
 
-#define AET_PREFIX "MAZR_"
-
-
+#define AET_PREFIX "AZ_"
 
 #endif

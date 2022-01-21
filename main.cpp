@@ -14,6 +14,24 @@
 #include "global.h"
 #include "settings.h"
 #include "runtime.h"
+#include "helper.h"
+
+
+/*
+OFString projectBuffer = "";
+if ((dcmFile.getDataset()->tagExistsWithValue(DCM_StudyDescription)) && (!dcmFile.getDataset()->findAndGetOFString(DCM_RetrieveAETitle, projectBuffer).good()))
+{
+    OUT("Unable to read RetrieveAETitle from file " << currentFile.fileName().toStdString());
+    OUT("Unable to determine target project. Aborting")
+    return false;
+}
+projectName = QString(projectBuffer.c_str());
+if (!projectName.startsWith(AET_PREFIX, Qt::CaseSensitive))
+{
+    OUT("Invalid format of RetrieveAETitle in file " << currentFile.fileName().toStdString());
+    return false;
+}
+*/
 
 
 bool readSettings()
@@ -53,7 +71,6 @@ bool readSettings()
         OUT("ERROR: Rule has been configured to retain original images, which is not allowed for the anonymizer module")
         return false;
     }
-
     if (!process.contains("settings"))
     {
         OUT("ERROR: Invalid task file (settings missing)")
@@ -102,21 +119,13 @@ bool processFile(QFileInfo currentFile)
         QString projectName = "";
 
         // Get project name from retriving AET
-        OFString projectBuffer = "";    
-        if ((dcmFile.getDataset()->tagExistsWithValue(DCM_StudyDescription)) && (!dcmFile.getDataset()->findAndGetOFString(DCM_RetrieveAETitle, projectBuffer).good())) 
+        projectName = Helper::getAETfromTagsFile(currentFile);
+        if (projectName.isEmpty())
         {
-            OUT("Unable to read RetrieveAETitle from file " << currentFile.fileName().toStdString());
+            OUT("Unable to read ReceivingAET from tags file for " << currentFile.fileName().toStdString());
             OUT("Unable to determine target project. Aborting")
             return false;
-        }    
-        projectName = QString(projectBuffer.c_str());
-        if (!projectName.startsWith(AET_PREFIX, Qt::CaseSensitive))
-        {
-            OUT("Invalid format of RetrieveAETitle in file " << currentFile.fileName().toStdString());
-            return false;            
-        }
-        // Chop the prefix from the front of the AET
-        projectName.remove(0,QString(AET_PREFIX).length());
+        }     
 
         // Compose the processing settings based on the selected project name
         RTI->settings.prepareSettings(projectName);

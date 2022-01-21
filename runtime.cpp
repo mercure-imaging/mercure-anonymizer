@@ -2,6 +2,7 @@
 #include "runtime.h"
 #include "settings.h"
 
+
 Runtime* Runtime::pSingleton=0;
 
 

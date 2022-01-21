@@ -30,7 +30,7 @@ public:
         element=_element;
         command=_command;
         paramter=_parameter;
-    }
+    }    
 
     QString id;
     Uint16 group;
@@ -51,11 +51,19 @@ public:
     }
 
     int mode;
+    bool isPrepared;
     QList<TagEntry> tags;
     QString currentProject;
-    bool isPrepared;
+    QString projectOwner;
+    QString projectName;
+    QString dateString;
 
     void prepareSettings(QString projectID);
+
+protected:
+
+    bool addTag(QString key, QString value);
+
 };
 
 
