@@ -17,23 +17,6 @@
 #include "helper.h"
 
 
-/*
-OFString projectBuffer = "";
-if ((dcmFile.getDataset()->tagExistsWithValue(DCM_StudyDescription)) && (!dcmFile.getDataset()->findAndGetOFString(DCM_RetrieveAETitle, projectBuffer).good()))
-{
-    OUT("Unable to read RetrieveAETitle from file " << currentFile.fileName().toStdString());
-    OUT("Unable to determine target project. Aborting")
-    return false;
-}
-projectName = QString(projectBuffer.c_str());
-if (!projectName.startsWith(AET_PREFIX, Qt::CaseSensitive))
-{
-    OUT("Invalid format of RetrieveAETitle in file " << currentFile.fileName().toStdString());
-    return false;
-}
-*/
-
-
 bool readSettings()
 {
     if (!RTI->inputDir.exists(TASKFILE))
@@ -100,6 +83,53 @@ bool readSettings()
 }
 
 
+bool processTags(DcmDataset *dataset)
+{   
+    QMapIterator<QString, TagEntry> i(RTI->settings.tags);
+    
+    while (i.hasNext()) 
+    {
+        i.next();
+        DcmTagKey tagKey(i.value().group, i.value().element);
+
+        //dataset->tagExists()
+        DcmElement* item = nullptr;
+
+        switch (i.value().command)
+        {
+        case TagEntry::KEEP:
+            break;
+        case TagEntry::REMOVE:
+            item = dataset->remove(tagKey);
+            if (item)
+            {
+                delete item;
+            }
+            break;
+        case TagEntry::CLEAR: 
+            // TODO
+            break;
+        case TagEntry::SET: 
+            // TODO
+            break;
+        }
+    }
+
+    /*    
+        OFString buffer = "";
+        if ((dcmFile.getDataset()->tagExistsWithValue(DCM_StudyDescription)) && (!dcmFile.getDataset()->findAndGetOFString(DCM_StudyDescription, buffer).good())) 
+        {
+            OUT("Unable to read tag from file " << currentFile.fileName().toStdString());                                                                       
+            return false;
+        }    
+        buffer = "YOYOYO";
+        dcmFile.getDataset()->putAndInsertString(DCM_StudyDescription, buffer.c_str());
+    */
+
+    return true;
+}
+
+
 bool processFile(QFileInfo currentFile)
 {
     //OUT("  File " + currentFile.fileName().toStdString())
@@ -134,23 +164,20 @@ bool processFile(QFileInfo currentFile)
         }
     }
 
-    for (int i=0; i<RTI->settings.tags.size(); i++)
+    if (!processTags(dcmFile.getDataset()))
     {
-        /*
-        OFString buffer = "";
-        if ((dcmFile.getDataset()->tagExistsWithValue(DCM_StudyDescription)) && (!dcmFile.getDataset()->findAndGetOFString(DCM_StudyDescription, buffer).good())) 
-        {
-            OUT("Unable to read tag from file " << currentFile.fileName().toStdString());                                                                       
-            return false;
-        }    
-        buffer = "YOYOYO";
-        dcmFile.getDataset()->putAndInsertString(DCM_StudyDescription, buffer.c_str());
-        */
+        OUT("Unable to process tags of file " << currentFile.fileName().toStdString());
+        return false;
     }
 
     OFCondition writeStatus = dcmFile.saveFile(outputFilename);
-    // TODO: Error logging
+    if (!writeStatus.good())
+    {
+        OUT("Unable to write DICOM file " << outputFilename.c_str());
+        return false;       
+    }
 
+    RTI->processedFiles++;
     return true;
 }
 
@@ -161,8 +188,9 @@ bool processFiles()
     nameFilter << "*.dcm";
     RTI->inputFiles=RTI->inputDir.entryInfoList(nameFilter, QDir::NoDotAndDotDot | QDir::Files, QDir::Name);
 
-    QString currentSeries = "";
+    Helper::generateStudyUID();
 
+    QString currentSeries = "";
     for (int i = 0; i < RTI->inputFiles.size(); ++i) 
     {
         QString seriesUID = RTI->inputFiles.at(i).fileName().split(SEPARATOR)[0];
@@ -170,6 +198,7 @@ bool processFiles()
         {
             currentSeries = seriesUID;
             OUT("Processing series " << currentSeries.toStdString());
+            Helper::generateSeriesUID();
         }
         if (!processFile(RTI->inputFiles.at(i)))
         {
@@ -185,16 +214,19 @@ bool processFiles()
 
 int main(int argc, char *argv[])
 {
+    OUT("")
+    OUT("mercure-anonymizer ver " << VERSION)
+    OUT("--------------------------")
+    OUT("")
+
     if (argc < 2)
     {
-        OUT("")
-        OUT("mercure-anonymizer ver " << VERSION)
-        OUT("--------------------------")
-        OUT("")
         OUT("Usage: [input folder] [output folder]")
         OUT("")
         return 1;
     }
+
+    QDateTime startTime = QDateTime::currentDateTime();
 
     RTI->inputFolder = QString(argv[1]);
     RTI->outputFolder = QString(argv[2]);
@@ -220,5 +252,10 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    QDateTime endTime = QDateTime::currentDateTime();
+    int durationSecs = (int) startTime.secsTo(endTime);
+    OUT("Done (" << durationSecs << " secs)")
+    OUT("Processed files: " << RTI->processedFiles)    
+    OUT("")
     return 0;
 }

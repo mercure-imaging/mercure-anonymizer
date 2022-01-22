@@ -13,10 +13,15 @@ public:
     {
         inputFolder = "";
         outputFolder = "";
+        inputFiles.clear();
+
+        newStudyUID="";
+        newSeriesUID="";
+
+        processedFiles=0;
     }
 
     static Runtime* getInstance();
-
 
     ModuleSettings settings;
     QJsonObject settingsJson;
@@ -29,6 +34,11 @@ public:
 
     QFileInfoList inputFiles;
 
+    QString newStudyUID;
+    QString newSeriesUID;
+
+    int processedFiles;
+
 private:
     static Runtime* pSingleton;
 
@@ -36,4 +46,3 @@ private:
 
 
 #endif
-

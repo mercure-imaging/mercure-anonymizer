@@ -7,6 +7,10 @@ class Helper
 {
 public:
     static QString getAETfromTagsFile(QFileInfo currentFile);
+
+    static void generateStudyUID();
+    static void generateSeriesUID();
+    static QString generateInstanceUID();
 };
 
 #endif

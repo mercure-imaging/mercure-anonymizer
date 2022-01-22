@@ -1,3 +1,5 @@
+#include "dcmtk/dcmdata/dcuid.h"
+
 #include "global.h"
 #include "runtime.h"
 #include "settings.h"
@@ -32,3 +34,28 @@ QString Helper::getAETfromTagsFile(QFileInfo currentFile)
 
     return root.value("ReceiverAET").toString();
 }
+
+
+void Helper::generateStudyUID()
+{
+    char uid[100];
+    dcmGenerateUniqueIdentifier(uid, SITE_STUDY_UID_ROOT);
+    RTI->newStudyUID=QString(uid);
+}
+
+
+void Helper::generateSeriesUID()
+{
+    char uid[100];
+    dcmGenerateUniqueIdentifier(uid, SITE_SERIES_UID_ROOT);
+    RTI->newStudyUID=QString(uid);
+}
+
+
+QString Helper::generateInstanceUID()
+{
+    char uid[100];
+    dcmGenerateUniqueIdentifier(uid, SITE_INSTANCE_UID_ROOT);
+    return QString(uid);
+}
+
