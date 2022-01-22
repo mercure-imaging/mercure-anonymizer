@@ -128,10 +128,13 @@ bool processFile(QFileInfo currentFile)
         }     
 
         // Compose the processing settings based on the selected project name
-        RTI->settings.prepareSettings(projectName);
+        if (!RTI->settings.prepareSettings(projectName))
+        {
+            return false;
+        }
     }
 
-    for (int i=0; i<RTI->settings.tags.length(); i++)
+    for (int i=0; i<RTI->settings.tags.size(); i++)
     {
         /*
         OFString buffer = "";

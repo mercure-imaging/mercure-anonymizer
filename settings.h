@@ -4,39 +4,75 @@
 #include <QtCore>
 #include "dcmtk/dcmdata/dctypes.h"
 
+
 #define SETTINGS_MODE_BLACKLIST 0
 #define SETTINGS_MODE_WHITELIST 1
 
-#define COMMAND_ID_CLEAR  "clear"
-#define COMMAND_ID_REMOVE "remove"
+
 #define COMMAND_ID_KEEP   "keep"
+#define COMMAND_ID_REMOVE "remove"
+#define COMMAND_ID_CLEAR  "clear"
 #define COMMAND_ID_SET    "set"
+
+#define SET_MACRO_NAME "@name@"
+#define SET_MACRO_OWNER "@owner@"
+#define SET_MACRO_DATE "@date@"
 
 
 class TagEntry 
 {
 public:
     enum Command {
-        CLEAR = 0,
+        KEEP = 0,
         REMOVE,
-        KEEP,
+        CLEAR,
         SET 
     };
 
-    TagEntry(QString _id, Uint16 _group, Uint16 _element, Command _command, QString _parameter) 
+    TagEntry()
     {
-        id=_id;
+        set(0, 0, KEEP, "", "Unknown");
+    }
+
+    TagEntry(Uint16 _group, Uint16 _element, Command _command, QString _parameter, QString _source)
+    {
+        set(_group, _element, _command, _parameter, _source);
+    }    
+
+    void set(Uint16 _group, Uint16 _element, Command _command, QString _parameter, QString _source)
+    {
         group=_group;
         element=_element;
         command=_command;
-        paramter=_parameter;
-    }    
+        parameter=_parameter;
+        source=_source;
+    }
 
-    QString id;
+    QString getCommandName() const
+    {
+        switch (command)
+        {
+        case KEEP:
+            return QString(COMMAND_ID_KEEP);
+        case REMOVE:
+            return QString(COMMAND_ID_REMOVE);
+        case CLEAR:
+            return QString(COMMAND_ID_CLEAR);
+        case SET:
+            return QString(COMMAND_ID_SET);
+        default:
+            return "ERROR";
+        }
+    }
+
+    void replaceParameterMacros();
+    void replaceMacro(QString macro, QString value);
+
     Uint16 group;
     Uint16 element;
-    QString paramter;
     Command command;
+    QString parameter;
+    QString source;
 };
 
 
@@ -52,17 +88,19 @@ public:
 
     int mode;
     bool isPrepared;
-    QList<TagEntry> tags;
+    QMap<QString, TagEntry> tags;
     QString currentProject;
     QString projectOwner;
     QString projectName;
     QString dateString;
+    bool skipDefaultAssignment;
 
-    void prepareSettings(QString projectID);
+    bool prepareSettings(QString projectID);
 
 protected:
-
-    bool addTag(QString key, QString value);
+    bool addTag(QString key, QString value, QString source);
+    void replaceAllParameterMacros();
+    void printTags();
 
 };
 
