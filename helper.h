@@ -10,7 +10,7 @@ public:
 
     static void generateStudyUID();
     static void generateSeriesUID();
-    static QString generateInstanceUID();
+    static void generateInstanceUID();
 };
 
 #endif

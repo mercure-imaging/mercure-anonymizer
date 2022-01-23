@@ -48,14 +48,13 @@ void Helper::generateSeriesUID()
 {
     char uid[100];
     dcmGenerateUniqueIdentifier(uid, SITE_SERIES_UID_ROOT);
-    RTI->newStudyUID=QString(uid);
+    RTI->newSeriesUID=QString(uid);
 }
 
 
-QString Helper::generateInstanceUID()
+void Helper::generateInstanceUID()
 {
     char uid[100];
     dcmGenerateUniqueIdentifier(uid, SITE_INSTANCE_UID_ROOT);
-    return QString(uid);
+    RTI->newInstanceUID=QString(uid);
 }
-

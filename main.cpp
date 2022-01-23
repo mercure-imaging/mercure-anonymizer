@@ -83,7 +83,7 @@ bool readSettings()
 }
 
 
-bool processTags(DcmDataset *dataset)
+bool processTags(DcmDataset* dataset, DcmMetaInfo* metainfo)
 {   
     QMapIterator<QString, TagEntry> i(RTI->settings.tags);
     
@@ -91,8 +91,6 @@ bool processTags(DcmDataset *dataset)
     {
         i.next();
         DcmTagKey tagKey(i.value().group, i.value().element);
-
-        //dataset->tagExists()
         DcmElement* item = nullptr;
 
         switch (i.value().command)
@@ -107,7 +105,11 @@ bool processTags(DcmDataset *dataset)
             }
             break;
         case TagEntry::CLEAR: 
-            // TODO
+            if (dataset->insertEmptyElement(tagKey, OFTrue).bad())
+            {
+                OUT("ERROR: Unable to CLEAR tag " << i.key().toStdString())
+                return false;
+            }
             break;
         case TagEntry::SET: 
             // TODO
@@ -115,16 +117,10 @@ bool processTags(DcmDataset *dataset)
         }
     }
 
-    /*    
-        OFString buffer = "";
-        if ((dcmFile.getDataset()->tagExistsWithValue(DCM_StudyDescription)) && (!dcmFile.getDataset()->findAndGetOFString(DCM_StudyDescription, buffer).good())) 
-        {
-            OUT("Unable to read tag from file " << currentFile.fileName().toStdString());                                                                       
-            return false;
-        }    
-        buffer = "YOYOYO";
-        dcmFile.getDataset()->putAndInsertString(DCM_StudyDescription, buffer.c_str());
-    */
+    metainfo->putAndInsertString(DCM_MediaStorageSOPInstanceUID, RTI->newInstanceUID.toUtf8(), OFTrue);
+    dataset->putAndInsertString(DCM_SOPInstanceUID, RTI->newInstanceUID.toUtf8(), OFTrue);
+    dataset->putAndInsertString(DCM_SeriesInstanceUID, RTI->newSeriesUID.toUtf8(), OFTrue);
+    dataset->putAndInsertString(DCM_StudyInstanceUID, RTI->newStudyUID.toUtf8(), OFTrue);
 
     return true;
 }
@@ -133,8 +129,10 @@ bool processTags(DcmDataset *dataset)
 bool processFile(QFileInfo currentFile)
 {
     //OUT("  File " + currentFile.fileName().toStdString())
+    
     OFString inputFilename = OFString(currentFile.absoluteFilePath().toUtf8().constData());
-    OFString outputFilename = OFString(RTI->outputDir.filePath(currentFile.completeBaseName() + "_mod.dcm").toUtf8().constData());
+    OFString outputFilename = OFString(RTI->outputDir.filePath(RTI->newSeriesUID +"#" + RTI->newInstanceUID + ".dcm").toUtf8().constData());
+
     DcmFileFormat dcmFile;
     OFCondition readStatus = dcmFile.loadFile(inputFilename);
 
@@ -164,7 +162,7 @@ bool processFile(QFileInfo currentFile)
         }
     }
 
-    if (!processTags(dcmFile.getDataset()))
+    if (!processTags(dcmFile.getDataset(), dcmFile.getMetaInfo()))
     {
         OUT("Unable to process tags of file " << currentFile.fileName().toStdString());
         return false;
@@ -192,18 +190,21 @@ bool processFiles()
 
     QString currentSeries = "";
     for (int i = 0; i < RTI->inputFiles.size(); ++i) 
-    {
+    {        
         QString seriesUID = RTI->inputFiles.at(i).fileName().split(SEPARATOR)[0];
         if (seriesUID != currentSeries)
         {
             currentSeries = seriesUID;
             OUT("Processing series " << currentSeries.toStdString());
-            Helper::generateSeriesUID();
-        }
+            Helper::generateSeriesUID();     
+        }                
+
+        Helper::generateInstanceUID();
+
         if (!processFile(RTI->inputFiles.at(i)))
         {
             OUT("ERROR: Unable to process file " << RTI->inputFiles.at(i).fileName().toStdString())
-            OUT("Aborting")
+            OUT("ERROR: Aborting")
             return false;
         }
     }

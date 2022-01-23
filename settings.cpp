@@ -1,6 +1,26 @@
 #include "global.h"
 #include "settings.h"
 #include "runtime.h"
+#include "presets.h"
+
+
+void TagEntry::replaceParameterMacros()
+{
+    // Check the parameter values for macros and replace with corresponding values
+    replaceMacro(SET_MACRO_NAME, RTI->settings.projectName);
+    replaceMacro(SET_MACRO_OWNER, RTI->settings.projectOwner);
+    replaceMacro(SET_MACRO_DATE, RTI->settings.dateString);
+}
+
+
+void TagEntry::replaceMacro(QString macro, QString value)
+{
+    // Replace all occurances of the macro in the parameter string
+    while (parameter.indexOf(macro)>=0)
+    {
+        parameter.replace(parameter.indexOf(macro), macro.size(), value);
+    }
+}
 
 
 bool ModuleSettings::prepareSettings(QString projectID)
@@ -21,7 +41,7 @@ bool ModuleSettings::prepareSettings(QString projectID)
     projectOwner = "Unknown";
     projectName = "Undefined";
     dateString = QDateTime::currentDateTime().toString("MMddyyyy");
-    skipDefaultAssignment=false;
+    selectedPreset=DEFAULT;
 
     // Read general settings
     if (generalSettings.contains("name")) 
@@ -32,11 +52,12 @@ bool ModuleSettings::prepareSettings(QString projectID)
     {
         projectOwner = generalSettings.value("owner").toString();
     }
-    if (generalSettings.contains("skip_default_assignment")) 
+    if (generalSettings.contains("preset")) 
     {
-        if (generalSettings.value("skip_default_assignment").toString().toLower()=="true")
+        selectedPreset=DEFAULT;
+        if (generalSettings.value("preset").toString().toLower()==PRESET_NONE)
         {
-            skipDefaultAssignment=true;
+            selectedPreset=NONE;
         }
     }
 
@@ -55,32 +76,25 @@ bool ModuleSettings::prepareSettings(QString projectID)
             projectOwner = projectSettings.value("owner").toString();
         }
 
-        if (projectSettings.contains("skip_default_assignment")) 
+        if (projectSettings.contains("preset")) 
         {
-            if (projectSettings.value("skip_default_assignment").toString().toLower()=="true")
+            selectedPreset=DEFAULT;
+            if (projectSettings.value("preset").toString().toLower()==PRESET_NONE)
             {
-                skipDefaultAssignment=true;
-            }
-            else
-            {
-                skipDefaultAssignment=false;
+                selectedPreset=NONE;
             }
         }
     }
     else
     {
-        OUT("--No project-specific settings found")
+        OUT("-- No project-specific settings found")
     }
 
-    // Add default assignments    
-    if (!skipDefaultAssignment)
+    // Add preset assignments    
+    if (!Presets::addAssignments())
     {
-        addTag("(0010,1040)", "remove", "default");
-        // TODO
-    }
-    else
-    {
-        OUT("--Skipping default assignment")
+        OUT("ERROR: Invalid preset settings. Aborting.")
+        return false;
     }
 
     // Add general assignments
@@ -228,23 +242,3 @@ void ModuleSettings::printTags()
     OUT("--------------------------------------------------------------------------------------")
     OUT("")
 }
-
-
-void TagEntry::replaceParameterMacros()
-{
-    // Check the parameter values for macros and replace with corresponding values
-    replaceMacro(SET_MACRO_NAME, RTI->settings.projectName);
-    replaceMacro(SET_MACRO_OWNER, RTI->settings.projectOwner);
-    replaceMacro(SET_MACRO_DATE, RTI->settings.dateString);
-}
-
-
-void TagEntry::replaceMacro(QString macro, QString value)
-{
-    // Replace all occurances of the macro in the parameter string
-    while (parameter.indexOf(macro)>=0)
-    {
-        parameter.replace(parameter.indexOf(macro), macro.size(), value);
-    }
-}
-

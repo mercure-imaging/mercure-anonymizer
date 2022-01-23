@@ -8,7 +8,6 @@
 #define SETTINGS_MODE_BLACKLIST 0
 #define SETTINGS_MODE_WHITELIST 1
 
-
 #define COMMAND_ID_KEEP   "keep"
 #define COMMAND_ID_REMOVE "remove"
 #define COMMAND_ID_CLEAR  "clear"
@@ -17,6 +16,9 @@
 #define SET_MACRO_NAME "@name@"
 #define SET_MACRO_OWNER "@owner@"
 #define SET_MACRO_DATE "@date@"
+
+#define PRESET_DEFAULT "default"
+#define PRESET_NONE "none"
 
 
 class TagEntry 
@@ -78,27 +80,33 @@ public:
 
 class ModuleSettings 
 {
-public: 
+public:
+    enum Preset {
+        DEFAULT = 0,
+        NONE
+    };
+
     ModuleSettings() 
     {
         mode=SETTINGS_MODE_BLACKLIST;
         currentProject="";
         isPrepared=false;
+        selectedPreset=DEFAULT;
     }
 
     int mode;
     bool isPrepared;
-    QMap<QString, TagEntry> tags;
     QString currentProject;
     QString projectOwner;
     QString projectName;
     QString dateString;
-    bool skipDefaultAssignment;
-
+    Preset selectedPreset;
+    QMap<QString, TagEntry> tags;
+   
     bool prepareSettings(QString projectID);
+    bool addTag(QString key, QString value, QString source);
 
 protected:
-    bool addTag(QString key, QString value, QString source);
     void replaceAllParameterMacros();
     void printTags();
 

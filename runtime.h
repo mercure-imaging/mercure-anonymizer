@@ -17,6 +17,7 @@ public:
 
         newStudyUID="";
         newSeriesUID="";
+        newInstanceUID="";
 
         processedFiles=0;
     }
@@ -36,6 +37,7 @@ public:
 
     QString newStudyUID;
     QString newSeriesUID;
+    QString newInstanceUID;
 
     int processedFiles;
 
