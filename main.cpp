@@ -91,17 +91,16 @@ bool processTags(DcmDataset* dataset, DcmMetaInfo* metainfo)
     {
         i.next();
         DcmTagKey tagKey(i.value().group, i.value().element);
-        DcmElement* item = nullptr;
 
         switch (i.value().command)
         {
         case TagEntry::KEEP:
             break;
         case TagEntry::REMOVE:
-            item = dataset->remove(tagKey);
-            if (item)
+            if ((dataset->tagExists(tagKey)) && (dataset->findAndDeleteElement(tagKey).bad()))
             {
-                delete item;
+                OUT("ERROR: Unable to REMOVE tag " << i.key().toStdString())
+                return false;
             }
             break;
         case TagEntry::CLEAR: 
@@ -112,15 +111,25 @@ bool processTags(DcmDataset* dataset, DcmMetaInfo* metainfo)
             }
             break;
         case TagEntry::SET: 
-            // TODO
+            if (dataset->putAndInsertString(tagKey, i.value().parameter.toUtf8(), OFTrue).bad())
+            {
+                OUT("ERROR: Unable to CLEAR tag " << i.key().toStdString())
+                return false;
+            }
             break;
         }
     }
 
     metainfo->putAndInsertString(DCM_MediaStorageSOPInstanceUID, RTI->newInstanceUID.toUtf8(), OFTrue);
     dataset->putAndInsertString(DCM_SOPInstanceUID, RTI->newInstanceUID.toUtf8(), OFTrue);
-    dataset->putAndInsertString(DCM_SeriesInstanceUID, RTI->newSeriesUID.toUtf8(), OFTrue);
-    dataset->putAndInsertString(DCM_StudyInstanceUID, RTI->newStudyUID.toUtf8(), OFTrue);
+    if (!RTI->newSeriesUID.isEmpty())
+    {
+        dataset->putAndInsertString(DCM_SeriesInstanceUID, RTI->newSeriesUID.toUtf8(), OFTrue);
+    }
+    if (!RTI->newStudyUID.isEmpty())
+    {
+        dataset->putAndInsertString(DCM_StudyInstanceUID, RTI->newStudyUID.toUtf8(), OFTrue);
+    }
 
     return true;
 }
