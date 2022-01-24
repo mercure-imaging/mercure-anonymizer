@@ -110,10 +110,10 @@ bool processTags(DcmDataset* dataset, DcmMetaInfo* metainfo)
                 return false;
             }
             break;
-        case TagEntry::SET: 
+        case TagEntry::SET:
             if (dataset->putAndInsertString(tagKey, i.value().parameter.toUtf8(), OFTrue).bad())
             {
-                OUT("ERROR: Unable to CLEAR tag " << i.key().toStdString())
+                OUT("ERROR: Unable to SET tag " << i.key().toStdString())
                 return false;
             }
             break;
@@ -196,6 +196,7 @@ bool processFiles()
     RTI->inputFiles=RTI->inputDir.entryInfoList(nameFilter, QDir::NoDotAndDotDot | QDir::Files, QDir::Name);
 
     Helper::generateStudyUID();
+    Helper::generateRandomUID();
 
     QString currentSeries = "";
     for (int i = 0; i < RTI->inputFiles.size(); ++i) 
@@ -261,6 +262,10 @@ int main(int argc, char *argv[])
         OUT("ERROR: Unable to process files")
         return 1;
     }
+
+    //QThread::msleep(1);
+    //QDateTime refDate(QDate(2020, 1, 1), QTime(0, 0, 0));
+    //OUT("CURRENT: " << QString::number(QDateTime::currentMSecsSinceEpoch()-refDate.toMSecsSinceEpoch()).toStdString())
 
     QDateTime endTime = QDateTime::currentDateTime();
     int durationSecs = (int) startTime.secsTo(endTime);

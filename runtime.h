@@ -38,6 +38,7 @@ public:
     QString newStudyUID;
     QString newSeriesUID;
     QString newInstanceUID;
+    QString randomUID;
 
     int processedFiles;
 

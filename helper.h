@@ -11,6 +11,7 @@ public:
     static void generateStudyUID();
     static void generateSeriesUID();
     static void generateInstanceUID();
+    static void generateRandomUID();
 };
 
 #endif

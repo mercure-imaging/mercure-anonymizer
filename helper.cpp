@@ -58,3 +58,11 @@ void Helper::generateInstanceUID()
     dcmGenerateUniqueIdentifier(uid, SITE_INSTANCE_UID_ROOT);
     RTI->newInstanceUID=QString(uid);
 }
+
+
+void Helper::generateRandomUID()
+{
+    char uid[100];
+    dcmGenerateUniqueIdentifier(uid, SITE_INSTANCE_UID_ROOT);
+    RTI->randomUID=QString(uid);
+}
