@@ -111,7 +111,12 @@ bool processTags(DcmDataset* dataset, DcmMetaInfo* metainfo)
             }
             break;
         case TagEntry::SET:
-            if (dataset->putAndInsertString(tagKey, i.value().parameter.toUtf8(), OFTrue).bad())
+            QString setParameter = i.value().parameter;
+            if (setParameter.contains(SET_MACRO_VALUE))
+            {
+                // TODO: Fetch current value and replace macro in parameter string
+            }
+            if (dataset->putAndInsertString(tagKey, setParameter.toUtf8(), OFTrue).bad())
             {
                 OUT("ERROR: Unable to SET tag " << i.key().toStdString())
                 return false;
@@ -267,10 +272,6 @@ int main(int argc, char *argv[])
         OUT("ERROR: Unable to process files")
         return 1;
     }
-
-    //QThread::msleep(1);
-    //QDateTime refDate(QDate(2020, 1, 1), QTime(0, 0, 0));
-    //OUT("CURRENT: " << QString::number(QDateTime::currentMSecsSinceEpoch()-refDate.toMSecsSinceEpoch()).toStdString())
 
     QDateTime endTime = QDateTime::currentDateTime();
     int durationSecs = (int) startTime.secsTo(endTime);

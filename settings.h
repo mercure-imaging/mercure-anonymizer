@@ -17,7 +17,10 @@
 #define SET_MACRO_PROJECT_OWNER "@project_owner@"
 #define SET_MACRO_PROCESS_DATE "@process_date@"
 #define SET_MACRO_RANDOM_UID "@random_uid@"
-#define SET_MACRO_FAKENAME "@fakename@"
+#define SET_MACRO_FAKE_NAME "@fake_name@"
+#define SET_MACRO_FAKE_MRN "@fake_mrn@"
+#define SET_MACRO_FAKE_ACC "@fake_acc@"
+#define SET_MACRO_VALUE "@value@"
 
 #define PRESET_DEFAULT "default"
 #define PRESET_NONE "none"

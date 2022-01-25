@@ -103,3 +103,17 @@ QString Helper::getFakeName()
     int lastIndex = QRandomGenerator::global()->bounded(0, GREEK_ALPHABET_COUNT);
     return QString("^" + greek_alphabet[lastIndex] + "^" + greek_alphabet[firstIndex] + "^^^");
 }
+
+
+QString Helper::getFakeMRN()
+{
+    QDateTime refDate(QDate(2020, 1, 1), QTime(0, 0, 0));
+    return QString::number(QDateTime::currentMSecsSinceEpoch()-refDate.toMSecsSinceEpoch());
+}
+
+
+QString Helper::getFakeACC()
+{
+    QDateTime refDate(QDate(2013, 4, 12), QTime(11, 13, 33));
+    return QString::number(QDateTime::currentMSecsSinceEpoch()-refDate.toMSecsSinceEpoch());
+}

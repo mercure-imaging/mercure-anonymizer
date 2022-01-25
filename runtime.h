@@ -28,6 +28,9 @@ public:
     QString newInstanceUID;
     QString randomUID;
     QString dateString;
+
+    QString fakeMRN;
+    QString fakeACC;
     QString fakeName;
 
     int processedFiles;

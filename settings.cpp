@@ -11,7 +11,9 @@ void TagEntry::replaceParameterMacros()
     replaceMacro(SET_MACRO_PROJECT_OWNER, RTI->settings.projectOwner);
     replaceMacro(SET_MACRO_PROCESS_DATE, RTI->dateString);
     replaceMacro(SET_MACRO_RANDOM_UID, RTI->randomUID);
-    replaceMacro(SET_MACRO_FAKENAME, RTI->fakeName);    
+    replaceMacro(SET_MACRO_FAKE_MRN, RTI->fakeMRN);    
+    replaceMacro(SET_MACRO_FAKE_ACC, RTI->fakeACC);    
+    replaceMacro(SET_MACRO_FAKE_NAME, RTI->fakeName);    
 }
 
 
