@@ -13,9 +13,11 @@
 #define COMMAND_ID_CLEAR  "clear"
 #define COMMAND_ID_SET    "set"
 
-#define SET_MACRO_NAME "@name@"
-#define SET_MACRO_OWNER "@owner@"
-#define SET_MACRO_DATE "@date@"
+#define SET_MACRO_PROJECT_NAME "@project_name@"
+#define SET_MACRO_PROJECT_OWNER "@project_owner@"
+#define SET_MACRO_PROCESS_DATE "@process_date@"
+#define SET_MACRO_RANDOM_UID "@random_uid@"
+#define SET_MACRO_FAKENAME "@fakename@"
 
 #define PRESET_DEFAULT "default"
 #define PRESET_NONE "none"
@@ -98,8 +100,7 @@ public:
     bool isPrepared;
     QString currentProject;
     QString projectOwner;
-    QString projectName;
-    QString dateString;
+    QString projectName;  
     Preset selectedPreset;
     QMap<QString, TagEntry> tags;
    

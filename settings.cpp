@@ -7,15 +7,17 @@
 void TagEntry::replaceParameterMacros()
 {
     // Check the parameter values for macros and replace with corresponding values
-    replaceMacro(SET_MACRO_NAME, RTI->settings.projectName);
-    replaceMacro(SET_MACRO_OWNER, RTI->settings.projectOwner);
-    replaceMacro(SET_MACRO_DATE, RTI->settings.dateString);
+    replaceMacro(SET_MACRO_PROJECT_NAME, RTI->settings.projectName);
+    replaceMacro(SET_MACRO_PROJECT_OWNER, RTI->settings.projectOwner);
+    replaceMacro(SET_MACRO_PROCESS_DATE, RTI->dateString);
+    replaceMacro(SET_MACRO_RANDOM_UID, RTI->randomUID);
+    replaceMacro(SET_MACRO_FAKENAME, RTI->fakeName);    
 }
 
 
 void TagEntry::replaceMacro(QString macro, QString value)
 {
-    // Replace all occurances of the macro in the parameter string
+    // Replace all occurrances of the macro in the parameter string
     while (parameter.indexOf(macro)>=0)
     {
         parameter.replace(parameter.indexOf(macro), macro.size(), value);
@@ -40,7 +42,6 @@ bool ModuleSettings::prepareSettings(QString projectID)
     tags.clear();
     projectOwner = "Unknown";
     projectName = "Undefined";
-    dateString = QDateTime::currentDateTime().toString("MMddyyyy");
     selectedPreset=DEFAULT;
 
     // Read general settings

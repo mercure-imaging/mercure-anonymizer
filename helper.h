@@ -7,11 +7,13 @@ class Helper
 {
 public:
     static QString getAETfromTagsFile(QFileInfo currentFile);
+    static QString getFakeName();
 
     static void generateStudyUID();
     static void generateSeriesUID();
     static void generateInstanceUID();
     static void generateRandomUID();
+
 };
 
 #endif

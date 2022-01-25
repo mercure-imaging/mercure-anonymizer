@@ -66,3 +66,40 @@ void Helper::generateRandomUID()
     dcmGenerateUniqueIdentifier(uid, SITE_INSTANCE_UID_ROOT);
     RTI->randomUID=QString(uid);
 }
+
+
+#define GREEK_ALPHABET_COUNT 24
+static QString greek_alphabet[]
+{
+    "Alpha",
+    "Beta",
+    "Gamma",
+    "Delta",
+    "Epsilon",
+    "Zeta",
+    "Eta",
+    "Theta",
+    "Iota",
+    "Kappa",
+    "Lambda",
+    "Mu",
+    "Nu",
+    "Xi",
+    "Omicron",
+    "Pi",
+    "Rho",
+    "Sigma",
+    "Tau",
+    "Upsilon",
+    "Phi",
+    "Chi",
+    "Psi",
+    "Omega"
+};
+
+QString Helper::getFakeName()
+{
+    int firstIndex = QRandomGenerator::global()->bounded(0, GREEK_ALPHABET_COUNT);
+    int lastIndex = QRandomGenerator::global()->bounded(0, GREEK_ALPHABET_COUNT);
+    return QString("^" + greek_alphabet[lastIndex] + "^" + greek_alphabet[firstIndex] + "^^^");
+}

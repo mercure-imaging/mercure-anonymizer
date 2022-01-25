@@ -9,19 +9,7 @@
 class Runtime 
 {
 public: 
-    Runtime() 
-    {
-        inputFolder = "";
-        outputFolder = "";
-        inputFiles.clear();
-
-        newStudyUID="";
-        newSeriesUID="";
-        newInstanceUID="";
-
-        processedFiles=0;
-    }
-
+    Runtime();
     static Runtime* getInstance();
 
     ModuleSettings settings;
@@ -39,6 +27,8 @@ public:
     QString newSeriesUID;
     QString newInstanceUID;
     QString randomUID;
+    QString dateString;
+    QString fakeName;
 
     int processedFiles;
 

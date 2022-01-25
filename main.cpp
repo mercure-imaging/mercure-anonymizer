@@ -197,6 +197,7 @@ bool processFiles()
 
     Helper::generateStudyUID();
     Helper::generateRandomUID();
+    RTI->dateString = QDateTime::currentDateTime().toString("MMddyyyy");
 
     QString currentSeries = "";
     for (int i = 0; i < RTI->inputFiles.size(); ++i) 
@@ -228,6 +229,10 @@ int main(int argc, char *argv[])
     OUT("")
     OUT("mercure-anonymizer ver " << VERSION)
     OUT("--------------------------")
+    OUT("")
+    OUT("WARNING: This tool comes without any warranties.")
+    OUT("WARNING: Operation of the software is solely at the user’s own risk.")    
+    OUT("WARNING: The authors take no responsibility of any kind.")
     OUT("")
 
     if (argc < 2)
