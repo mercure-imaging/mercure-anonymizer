@@ -9,7 +9,9 @@ void TagEntry::replaceParameterMacros()
     // Check the parameter values for macros and replace with corresponding values
     replaceMacro(SET_MACRO_PROJECT_NAME, RTI->settings.projectName);
     replaceMacro(SET_MACRO_PROJECT_OWNER, RTI->settings.projectOwner);
+    replaceMacro(SET_MACRO_PROJECT_PREFIX, RTI->settings.projectPrefix);
     replaceMacro(SET_MACRO_PROCESS_DATE, RTI->dateString);
+    replaceMacro(SET_MACRO_PROCESS_TIME, RTI->timeString);
     replaceMacro(SET_MACRO_RANDOM_UID, RTI->randomUID);
     replaceMacro(SET_MACRO_FAKE_MRN, RTI->fakeMRN);    
     replaceMacro(SET_MACRO_FAKE_ACC, RTI->fakeACC);    
@@ -44,6 +46,7 @@ bool ModuleSettings::prepareSettings(QString projectID)
     tags.clear();
     projectOwner = "Unknown";
     projectName = "Undefined";
+    projectPrefix = "";
     selectedPreset=DEFAULT;
 
     // Read general settings
@@ -54,6 +57,10 @@ bool ModuleSettings::prepareSettings(QString projectID)
     if (generalSettings.contains("owner")) 
     {
         projectOwner = generalSettings.value("owner").toString();
+    }
+    if (generalSettings.contains("prefix")) 
+    {
+        projectOwner = generalSettings.value("prefix").toString();
     }
     if (generalSettings.contains("preset")) 
     {
@@ -77,6 +84,10 @@ bool ModuleSettings::prepareSettings(QString projectID)
         if (projectSettings.contains("owner")) 
         {
             projectOwner = projectSettings.value("owner").toString();
+        }
+        if (projectSettings.contains("prefix")) 
+        {
+            projectPrefix = projectSettings.value("prefix").toString();
         }
 
         if (projectSettings.contains("preset")) 

@@ -15,7 +15,9 @@
 
 #define SET_MACRO_PROJECT_NAME "@project_name@"
 #define SET_MACRO_PROJECT_OWNER "@project_owner@"
+#define SET_MACRO_PROJECT_PREFIX "@project_prefix@"
 #define SET_MACRO_PROCESS_DATE "@process_date@"
+#define SET_MACRO_PROCESS_TIME "@process_time@"
 #define SET_MACRO_RANDOM_UID "@random_uid@"
 #define SET_MACRO_FAKE_NAME "@fake_name@"
 #define SET_MACRO_FAKE_MRN "@fake_mrn@"
@@ -93,17 +95,22 @@ public:
 
     ModuleSettings() 
     {
+        isPrepared=false;
         mode=SETTINGS_MODE_BLACKLIST;
         currentProject="";
-        isPrepared=false;
         selectedPreset=DEFAULT;
+        projectOwner="";
+        projectName="";
+        projectPrefix="";        
     }
 
-    int mode;
     bool isPrepared;
+
+    int mode;
     QString currentProject;
     QString projectOwner;
-    QString projectName;  
+    QString projectName;
+    QString projectPrefix;
     Preset selectedPreset;
     QMap<QString, TagEntry> tags;
    

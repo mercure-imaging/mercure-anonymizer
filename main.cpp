@@ -85,8 +85,9 @@ bool readSettings()
 
 bool processTags(DcmDataset* dataset, DcmMetaInfo* metainfo)
 {   
+    QString currentValue = "";
     QMapIterator<QString, TagEntry> i(RTI->settings.tags);
-    
+
     while (i.hasNext()) 
     {
         i.next();
@@ -112,9 +113,27 @@ bool processTags(DcmDataset* dataset, DcmMetaInfo* metainfo)
             break;
         case TagEntry::SET:
             QString setParameter = i.value().parameter;
+
+            // If the parameter for the tag contains the value macro, then fetch the current value and replace the macro
             if (setParameter.contains(SET_MACRO_VALUE))
             {
-                // TODO: Fetch current value and replace macro in parameter string
+                currentValue = "";
+                QString valueMacro = SET_MACRO_VALUE;
+                if (dataset->tagExists(tagKey))
+                {
+                    OFString buffer = "";
+                    if (dataset->findAndGetOFString(tagKey, buffer).bad())
+                    {
+                        OUT("ERROR: Unable to read value from tag " << i.key().toStdString())        
+                        return false;
+                    }
+                    currentValue = QString(buffer.c_str());
+                }
+                // Replace all occurrances of the macro in the parameter string with the value
+                while (setParameter.indexOf(valueMacro)>=0)
+                {
+                    setParameter.replace(setParameter.indexOf(valueMacro), valueMacro.size(), currentValue);
+                }                
             }
             if (dataset->putAndInsertString(tagKey, setParameter.toUtf8(), OFTrue).bad())
             {
@@ -182,6 +201,10 @@ bool processFile(QFileInfo currentFile)
         return false;
     }
 
+    // TODO: If option enabled, remove all untouched DICOM tags -> Loop over all tags and check if they are contained in tags list. If not, add to removal stack
+    // TODO: If option enabled, remove all private tags -> Loop over all tags and check if they are private. If yes, add to removal stack
+    // TODO: Remove all tags stored in removal stack
+
     OFCondition writeStatus = dcmFile.saveFile(outputFilename);
     if (!writeStatus.good())
     {
@@ -201,8 +224,7 @@ bool processFiles()
     RTI->inputFiles=RTI->inputDir.entryInfoList(nameFilter, QDir::NoDotAndDotDot | QDir::Files, QDir::Name);
 
     Helper::generateStudyUID();
-    Helper::generateRandomUID();
-    RTI->dateString = QDateTime::currentDateTime().toString("MMddyyyy");
+    Helper::generateRandomUID();  
 
     QString currentSeries = "";
     for (int i = 0; i < RTI->inputFiles.size(); ++i) 

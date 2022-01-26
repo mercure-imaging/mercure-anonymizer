@@ -33,5 +33,8 @@ Runtime::Runtime()
     fakeACC = Helper::getFakeACC();
     fakeName = Helper::getFakeName();
 
+    dateString = QDateTime::currentDateTime().toString("MMddyyyy");
+    timeString = QDateTime::currentDateTime().toString("hhmmsszzz");
+
     processedFiles=0;
 }

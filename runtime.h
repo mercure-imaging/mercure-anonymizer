@@ -28,6 +28,7 @@ public:
     QString newInstanceUID;
     QString randomUID;
     QString dateString;
+    QString timeString;
 
     QString fakeMRN;
     QString fakeACC;
