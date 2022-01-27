@@ -96,6 +96,7 @@ bool processTags(DcmDataset* dataset, DcmMetaInfo* metainfo)
         switch (i.value().command)
         {
         case TagEntry::KEEP:
+        case TagEntry::SAFE:
             break;
         case TagEntry::REMOVE:
             if ((dataset->tagExists(tagKey)) && (dataset->findAndDeleteElement(tagKey).bad()))

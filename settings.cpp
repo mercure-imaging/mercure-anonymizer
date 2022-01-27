@@ -189,6 +189,10 @@ bool ModuleSettings::addTag(QString key, QString value, QString source)
     {
         command = TagEntry::KEEP;
     }
+    else if (value.startsWith(COMMAND_ID_SAFE))
+    {
+        command = TagEntry::SAFE;
+    }
     else if (value.startsWith(COMMAND_ID_REMOVE))
     {
         command = TagEntry::REMOVE;
@@ -251,7 +255,11 @@ void ModuleSettings::printTags()
     while (i.hasNext()) 
     {
         i.next();
-        OUT("   " << i.key().toStdString() << ": CMD=" << i.value().getCommandName().toStdString() << ", PARAM=\"" << i.value().parameter.toStdString() << "\", SOURCE=" << i.value().source.toStdString()  << ", GROUP=" << i.value().group << ", ELEMENT=" << i.value().element)
+        // Print all assignments (except tags marked as SAFE, which would make the list hard to read)
+        if (i.value().command != TagEntry::SAFE)
+        {
+            OUT("   " << i.key().toStdString() << ": CMD=" << i.value().getCommandName().toStdString() << ", PARAM=\"" << i.value().parameter.toStdString() << "\", SOURCE=" << i.value().source.toStdString()  << ", GROUP=" << i.value().group << ", ELEMENT=" << i.value().element)
+        }
     }
     OUT("--------------------------------------------------------------------------------------")
     OUT("")

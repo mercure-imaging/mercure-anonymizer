@@ -24,6 +24,7 @@ SOURCES += main.cpp
 SOURCES += settings.cpp
 SOURCES += runtime.cpp
 SOURCES += helper.cpp
+SOURCES += presets.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

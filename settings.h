@@ -9,6 +9,7 @@
 #define SETTINGS_MODE_WHITELIST 1
 
 #define COMMAND_ID_KEEP   "keep"
+#define COMMAND_ID_SAFE   "safe"
 #define COMMAND_ID_REMOVE "remove"
 #define COMMAND_ID_CLEAR  "clear"
 #define COMMAND_ID_SET    "set"
@@ -33,9 +34,10 @@ class TagEntry
 public:
     enum Command {
         KEEP = 0,
+        SAFE,
         REMOVE,
         CLEAR,
-        SET 
+        SET
     };
 
     TagEntry()
@@ -63,6 +65,8 @@ public:
         {
         case KEEP:
             return QString(COMMAND_ID_KEEP);
+        case SAFE:
+            return QString(COMMAND_ID_SAFE);
         case REMOVE:
             return QString(COMMAND_ID_REMOVE);
         case CLEAR:
