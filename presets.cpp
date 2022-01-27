@@ -242,283 +242,285 @@ bool Presets::addAssignmentsDefault()
 
     res &= addTag("(fffa,fffa)", "remove");    
     res &= addTag("(fffc,fffc)", "remove");    
+
+    res &= addTag("(0018,0026)", "safe");    
+    res &= addTag("(0018,0027)", "safe");    
+    res &= addTag("(0018,0028)", "safe");    
+    res &= addTag("(0018,0029)", "safe");    
+    res &= addTag("(0018,002a)", "safe");    
+    res &= addTag("(0018,0031)", "safe");    
+    res &= addTag("(0018,0034)", "safe");    
+    res &= addTag("(0018,0035)", "safe"); // ?   
+    res &= addTag("(0018,0036)", "safe");    
+    res &= addTag("(0018,0037)", "safe");    
+    res &= addTag("(0018,0038)", "safe");    
+    res &= addTag("(0018,0039)", "safe");    
+    res &= addTag("(0018,0040)", "safe");    
+    res &= addTag("(0018,0050)", "keep");    
+    res &= addTag("(0018,0060)", "safe");    
+    res &= addTag("(0018,0070)", "safe");    
+    res &= addTag("(0018,0071)", "safe");    
+    res &= addTag("(0018,0072)", "safe");    
+    res &= addTag("(0018,0073)", "safe");    
+    res &= addTag("(0018,0074)", "safe");    
+    res &= addTag("(0018,0075)", "safe");    
+    res &= addTag("(0018,0080)", "keep");    
+    res &= addTag("(0018,0081)", "keep");    
+    res &= addTag("(0018,0082)", "keep");    
+    res &= addTag("(0018,0083)", "keep");    
+    res &= addTag("(0018,0084)", "keep");    
+    res &= addTag("(0018,0085)", "keep");    
+    res &= addTag("(0018,0086)", "keep");    
+    res &= addTag("(0018,0087)", "keep");    
+    res &= addTag("(0018,0088)", "keep");    
+    res &= addTag("(0018,0089)", "keep");    
+    res &= addTag("(0018,0090)", "keep");    
+    res &= addTag("(0018,0091)", "keep");    
+    res &= addTag("(0018,0093)", "keep");    
+    res &= addTag("(0018,0094)", "keep");    
+    res &= addTag("(0018,0095)", "keep");    
+    res &= addTag("(0018,1000)", "remove");    
+    res &= addTag("(0018,1002)", "set(@random_uid@)");    
+    res &= addTag("(0018,1004)", "remove");    
+    res &= addTag("(0018,1005)", "remove");    
+    res &= addTag("(0018,1007)", "remove");    
+    res &= addTag("(0018,1008)", "remove");    
+    res &= addTag("(0018,1010)", "remove");    
+    res &= addTag("(0018,1011)", "remove");    
+    //<e en="T" t="00181012" n="DateOfSecondaryCapture">@hashdate(this,PatientID)</e>
+    res &= addTag("(0018,1014)", "remove");    
+    res &= addTag("(0018,1016)", "safe");
+    res &= addTag("(0018,1017)", "safe");
+    res &= addTag("(0018,1018)", "safe");
+    res &= addTag("(0018,1019)", "safe");
+    res &= addTag("(0018,101a)", "safe");
+    res &= addTag("(0018,101b)", "safe");
+    res &= addTag("(0018,1020)", "safe");
+    res &= addTag("(0018,1022)", "safe");
+    res &= addTag("(0018,1023)", "safe");
+    res &= addTag("(0018,1030)", "keep");
+    res &= addTag("(0018,1040)", "safe");
+    res &= addTag("(0018,1041)", "safe");
+    res &= addTag("(0018,1042)", "safe");
+    res &= addTag("(0018,1043)", "safe");
+    res &= addTag("(0018,1044)", "safe");
+    res &= addTag("(0018,1045)", "safe");
+    res &= addTag("(0018,1046)", "safe");
+    res &= addTag("(0018,1047)", "safe");
+    res &= addTag("(0018,1048)", "safe");
+    res &= addTag("(0018,1049)", "safe");
+    res &= addTag("(0018,1050)", "keep");
+    res &= addTag("(0018,1060)", "safe");
+    res &= addTag("(0018,1061)", "safe");
+    res &= addTag("(0018,1062)", "safe");
+    res &= addTag("(0018,1063)", "safe");
+    res &= addTag("(0018,1064)", "safe");
+    res &= addTag("(0018,1065)", "safe");
+    res &= addTag("(0018,1066)", "safe");
+    res &= addTag("(0018,1067)", "safe");
+    res &= addTag("(0018,1068)", "safe");
+    res &= addTag("(0018,1069)", "safe");
+    res &= addTag("(0018,106a)", "safe");
+    res &= addTag("(0018,106c)", "safe");
+    res &= addTag("(0018,106e)", "safe");
+    res &= addTag("(0018,1070)", "safe");
+    res &= addTag("(0018,1071)", "safe");
+    res &= addTag("(0018,1072)", "safe");
+    res &= addTag("(0018,1073)", "safe");
+    res &= addTag("(0018,1074)", "safe");
+    res &= addTag("(0018,1075)", "safe");
+    res &= addTag("(0018,1076)", "safe");
+    res &= addTag("(0018,1077)", "safe");
+    res &= addTag("(0018,1078)", "remove");
+    res &= addTag("(0018,1079)", "remove");
+    res &= addTag("(0018,1080)", "safe");
+    res &= addTag("(0018,1081)", "safe");
+    res &= addTag("(0018,1082)", "safe");
+    res &= addTag("(0018,1083)", "safe");
+    res &= addTag("(0018,1084)", "safe");
+    res &= addTag("(0018,1085)", "safe");
+    res &= addTag("(0018,1086)", "safe");
+    res &= addTag("(0018,1088)", "safe");
+    res &= addTag("(0018,1090)", "safe");
+    res &= addTag("(0018,1094)", "safe");
+    res &= addTag("(0018,1100)", "safe");
+    res &= addTag("(0018,1110)", "safe");
+    res &= addTag("(0018,1111)", "safe");
+    res &= addTag("(0018,1114)", "safe");
+    res &= addTag("(0018,1120)", "safe");
+    res &= addTag("(0018,1121)", "safe");
+    res &= addTag("(0018,1130)", "safe");
+    res &= addTag("(0018,1131)", "safe");
+    res &= addTag("(0018,1134)", "safe");
+    res &= addTag("(0018,1135)", "safe");
+    res &= addTag("(0018,1136)", "safe");
+    res &= addTag("(0018,1137)", "safe");
+    res &= addTag("(0018,1138)", "safe");
+    res &= addTag("(0018,113a)", "safe");
+    res &= addTag("(0018,1140)", "safe");
+    res &= addTag("(0018,1141)", "safe");
+    res &= addTag("(0018,1142)", "safe");
+    res &= addTag("(0018,1143)", "safe");
+    res &= addTag("(0018,1144)", "safe");
+    res &= addTag("(0018,1145)", "safe");
+    res &= addTag("(0018,1147)", "safe");
+    res &= addTag("(0018,1149)", "safe");
+    res &= addTag("(0018,1150)", "safe");
+    res &= addTag("(0018,1151)", "safe");
+    res &= addTag("(0018,1152)", "safe");
+    res &= addTag("(0018,1153)", "safe");
+    res &= addTag("(0018,1154)", "safe");
+    res &= addTag("(0018,1155)", "safe");
+    res &= addTag("(0018,1156)", "safe");
+    res &= addTag("(0018,115a)", "safe");
+    res &= addTag("(0018,115e)", "safe");
+    res &= addTag("(0018,1160)", "safe");
+    res &= addTag("(0018,1161)", "safe");
+    res &= addTag("(0018,1162)", "safe");
+    res &= addTag("(0018,1164)", "safe");
+    res &= addTag("(0018,1166)", "safe");
+    res &= addTag("(0018,1170)", "safe");
+    res &= addTag("(0018,1180)", "safe");
+    res &= addTag("(0018,1181)", "safe");
+    res &= addTag("(0018,1182)", "safe");
+    res &= addTag("(0018,1183)", "safe");
+    res &= addTag("(0018,1184)", "safe");
+    res &= addTag("(0018,1190)", "safe");
+    res &= addTag("(0018,1191)", "safe");
+    res &= addTag("(0018,11a0)", "safe");
+    res &= addTag("(0018,11a2)", "safe");
+    res &= addTag("(0018,1200)", "remove");
+    res &= addTag("(0018,1201)", "safe");
+    res &= addTag("(0018,1210)", "safe");
+    res &= addTag("(0018,1242)", "safe");
+    res &= addTag("(0018,1243)", "safe");
+    res &= addTag("(0018,1244)", "safe");
+    res &= addTag("(0018,1250)", "safe");
+    res &= addTag("(0018,1251)", "safe");
+    res &= addTag("(0018,1260)", "safe");
+    res &= addTag("(0018,1261)", "safe");
+    res &= addTag("(0018,1300)", "safe");
+    res &= addTag("(0018,1301)", "safe");
+    res &= addTag("(0018,1302)", "safe");
+    res &= addTag("(0018,1310)", "safe");
+    res &= addTag("(0018,1312)", "safe");
+    res &= addTag("(0018,1314)", "keep");
+    res &= addTag("(0018,1315)", "keep");
+    res &= addTag("(0018,1316)", "safe");
+    res &= addTag("(0018,1318)", "safe");
+    res &= addTag("(0018,1400)", "remove");
+    res &= addTag("(0018,1401)", "safe");
+    res &= addTag("(0018,1402)", "safe");
+    res &= addTag("(0018,1403)", "safe");
+    res &= addTag("(0018,1404)", "safe");
+    res &= addTag("(0018,1405)", "safe");
+    res &= addTag("(0018,1450)", "safe");
+    res &= addTag("(0018,1460)", "safe");
+    res &= addTag("(0018,1470)", "safe");
+    res &= addTag("(0018,1480)", "safe");
+    res &= addTag("(0018,1490)", "safe");
+    res &= addTag("(0018,1491)", "safe");
+    res &= addTag("(0018,1495)", "safe");
+    res &= addTag("(0018,1500)", "safe");
+    res &= addTag("(0018,1508)", "safe");
+    res &= addTag("(0018,1510)", "safe");
+    res &= addTag("(0018,1511)", "safe");
+    res &= addTag("(0018,1520)", "safe");
+    res &= addTag("(0018,1521)", "safe");
+    res &= addTag("(0018,1530)", "safe");
+    res &= addTag("(0018,1531)", "safe");
+    res &= addTag("(0018,1600)", "safe");
+    res &= addTag("(0018,1602)", "safe");
+    res &= addTag("(0018,1604)", "safe");
+    res &= addTag("(0018,1606)", "safe");
+    res &= addTag("(0018,1608)", "safe");
+    res &= addTag("(0018,1610)", "safe");
+    res &= addTag("(0018,1612)", "safe");
+    res &= addTag("(0018,1620)", "safe");
+    res &= addTag("(0018,1622)", "safe");
+    res &= addTag("(0018,1623)", "safe");
+    res &= addTag("(0018,1700)", "safe");
+    res &= addTag("(0018,1702)", "safe");
+    res &= addTag("(0018,1704)", "safe");
+    res &= addTag("(0018,1706)", "safe");
+    res &= addTag("(0018,1708)", "safe");
+    res &= addTag("(0018,1710)", "safe");
+    res &= addTag("(0018,1712)", "safe");
+    res &= addTag("(0018,1720)", "safe");
+    res &= addTag("(0018,1800)", "safe");
+    res &= addTag("(0018,1801)", "safe");
+    res &= addTag("(0018,1802)", "safe");
+    res &= addTag("(0018,4000)", "remove");
+    res &= addTag("(0018,5000)", "safe");
+    res &= addTag("(0018,5010)", "safe");
+    res &= addTag("(0018,5012)", "safe");
+    res &= addTag("(0018,5020)", "safe");
+    res &= addTag("(0018,5021)", "safe");
+    res &= addTag("(0018,5022)", "safe");
+    res &= addTag("(0018,5024)", "safe");
+    res &= addTag("(0018,5026)", "safe");
+    res &= addTag("(0018,5027)", "safe");
+    res &= addTag("(0018,5028)", "safe");
+    res &= addTag("(0018,5029)", "safe");
+    res &= addTag("(0018,5050)", "safe");
+    res &= addTag("(0018,5100)", "safe");
+    res &= addTag("(0018,5101)", "safe");
+    res &= addTag("(0018,5104)", "safe");
+    res &= addTag("(0018,5210)", "safe");
+    res &= addTag("(0018,5212)", "safe");
+    res &= addTag("(0018,6000)", "safe");
+    res &= addTag("(0018,6011)", "safe");
+    res &= addTag("(0018,6012)", "safe");
+    res &= addTag("(0018,6014)", "safe");
+    res &= addTag("(0018,6016)", "safe");
+    res &= addTag("(0018,6018)", "safe");
+    res &= addTag("(0018,601a)", "safe");
+    res &= addTag("(0018,601c)", "safe");
+    res &= addTag("(0018,601e)", "safe");
+    res &= addTag("(0018,6020)", "safe");
+    res &= addTag("(0018,6022)", "safe");
+    res &= addTag("(0018,6024)", "safe");
+    res &= addTag("(0018,6026)", "safe");
+    res &= addTag("(0018,6028)", "safe");
+    res &= addTag("(0018,602a)", "safe");
+    res &= addTag("(0018,602c)", "safe");
+    res &= addTag("(0018,602e)", "safe");
+    res &= addTag("(0018,6030)", "safe");
+    res &= addTag("(0018,6031)", "safe");
+    res &= addTag("(0018,6032)", "safe");
+    res &= addTag("(0018,6034)", "safe");
+    res &= addTag("(0018,6036)", "safe");
+    res &= addTag("(0018,6038)", "safe");
+    res &= addTag("(0018,603a)", "safe");
+    res &= addTag("(0018,603c)", "safe");
+    res &= addTag("(0018,603e)", "safe");
+    res &= addTag("(0018,6040)", "safe");
+    res &= addTag("(0018,6042)", "safe");
+    res &= addTag("(0018,6044)", "safe");
+    res &= addTag("(0018,6046)", "safe");
+    res &= addTag("(0018,6048)", "safe");
+    res &= addTag("(0018,604a)", "safe");
+    res &= addTag("(0018,604c)", "safe");
+    res &= addTag("(0018,604e)", "safe");
+    res &= addTag("(0018,6050)", "safe");
+    res &= addTag("(0018,6052)", "safe");
+    res &= addTag("(0018,6054)", "safe");
+    res &= addTag("(0018,6056)", "safe");
+    res &= addTag("(0018,6058)", "safe");
+    res &= addTag("(0018,605a)", "safe");
+    res &= addTag("(0018,7000)", "safe");
+    res &= addTag("(0018,7001)", "safe");
+    res &= addTag("(0018,7004)", "safe");
+    res &= addTag("(0018,7005)", "safe");
+    res &= addTag("(0018,7006)", "safe");
+    res &= addTag("(0018,7008)", "safe");
+    res &= addTag("(0018,700a)", "remove");
+    res &= addTag("(0018,700c)", "remove");
+    res &= addTag("(0018,700e)", "safe");
+
     return res;
 
 /*
-<e en="F" t="00180026" n="InterventionDrugInformationSeq"></e>
-<e en="F" t="00180027" n="InterventionDrugStopTime"></e>
-<e en="F" t="00180028" n="InterventionDrugDose"></e>
-<e en="F" t="00180029" n="InterventionDrugCodeSeq"></e>
-<e en="F" t="0018002a" n="AdditionalDrugSeq"></e>
-<e en="F" t="00180031" n="Radiopharmaceutical"></e>
-<e en="F" t="00180034" n="InterventionDrugName"></e>
-<e en="F" t="00180035" n="InterventionDrugStartTime"></e>
-<e en="F" t="00180036" n="InterventionalTherapySeq"></e>
-<e en="F" t="00180037" n="TherapyType"></e>
-<e en="F" t="00180038" n="InterventionalStatus"></e>
-<e en="F" t="00180039" n="TherapyDescription"></e>
-<e en="F" t="00180040" n="CineRate"></e>
-<e en="F" t="00180050" n="SliceThickness"></e>
-<e en="F" t="00180060" n="KVP"></e>
-<e en="F" t="00180070" n="CountsAccumulated"></e>
-<e en="F" t="00180071" n="AcquisitionTerminationCondition"></e>
-<e en="F" t="00180072" n="EffectiveSeriesDuration"></e>
-<e en="F" t="00180073" n="AcquisitionStartCondition"></e>
-<e en="F" t="00180074" n="AcquisitionStartConditionData"></e>
-<e en="F" t="00180075" n="AcquisitionTerminationConditionData"></e>
-<e en="F" t="00180080" n="RepetitionTime"></e>
-<e en="F" t="00180081" n="EchoTime"></e>
-<e en="F" t="00180082" n="InversionTime"></e>
-<e en="F" t="00180083" n="NumberOfAverages"></e>
-<e en="F" t="00180084" n="ImagingFrequency"></e>
-<e en="F" t="00180085" n="ImagedNucleus"></e>
-<e en="F" t="00180086" n="EchoNumber"></e>
-<e en="F" t="00180087" n="MagneticFieldStrength"></e>
-<e en="F" t="00180088" n="SpacingBetweenSlices"></e>
-<e en="F" t="00180089" n="NumberOfPhaseEncodingSteps"></e>
-<e en="F" t="00180090" n="DataCollectionDiameter"></e>
-<e en="F" t="00180091" n="EchoTrainLength"></e>
-<e en="F" t="00180093" n="PercentSampling"></e>
-<e en="F" t="00180094" n="PercentPhaseFieldOfView"></e>
-<e en="F" t="00180095" n="PixelBandwidth"></e>
-<e en="T" t="00181000" n="DeviceSerialNumber">@remove()</e>
-<e en="T" t="00181002" n="DeviceUID">@hashuid(@UIDROOT,this)</e>
-<e en="T" t="00181004" n="PlateID">@remove()</e>
-<e en="T" t="00181005" n="GeneratorID">@remove()</e>
-<e en="T" t="00181007" n="CassetteID">@remove()</e>
-<e en="T" t="00181008" n="GantryID">@remove()</e>
-<e en="F" t="00181010" n="SecondaryCaptureDeviceID"></e>
-<e en="F" t="00181011" n="HardcopyCreationDeviceID"></e>
-<e en="T" t="00181012" n="DateOfSecondaryCapture">@hashdate(this,PatientID)</e>
-<e en="F" t="00181014" n="TimeOfSecondaryCapture"></e>
-<e en="F" t="00181016" n="SecondaryCaptureDeviceManufacturer"></e>
-<e en="F" t="00181017" n="HardcopyDeviceManufacturer"></e>
-<e en="F" t="00181018" n="SecondaryCaptureDeviceManufacturerModelName"></e>
-<e en="F" t="00181019" n="SecondaryCaptureDeviceSoftwareVersion"></e>
-<e en="F" t="0018101a" n="HardcopyDeviceSoftwareVersion"></e>
-<e en="F" t="0018101b" n="HardcopyDeviceManfuacturerModelName"></e>
-<e en="T" t="00181020" n="SoftwareVersion">@remove()</e>
-<e en="F" t="00181022" n="VideoImageFormatAcquired"></e>
-<e en="F" t="00181023" n="DigitalImageFormatAcquired"></e>
-<e en="T" t="00181030" n="ProtocolName">@keep()</e>
-<e en="F" t="00181040" n="ContrastBolusRoute"></e>
-<e en="F" t="00181041" n="ContrastBolusVolume"></e>
-<e en="F" t="00181042" n="ContrastBolusStartTime"></e>
-<e en="F" t="00181043" n="ContrastBolusStopTime"></e>
-<e en="F" t="00181044" n="ContrastBolusTotalDose"></e>
-<e en="F" t="00181045" n="SyringeCounts"></e>
-<e en="F" t="00181046" n="ContrastFlowRate"></e>
-<e en="F" t="00181047" n="ContrastFlowDuration"></e>
-<e en="F" t="00181048" n="ContrastBolusIngredient"></e>
-<e en="F" t="00181049" n="ContrastBolusIngredientConcentration"></e>
-<e en="F" t="00181050" n="SpatialResolution"></e>
-<e en="F" t="00181060" n="TriggerTime"></e>
-<e en="F" t="00181061" n="TriggerSourceOrType"></e>
-<e en="F" t="00181062" n="NominalInterval"></e>
-<e en="F" t="00181063" n="FrameTime"></e>
-<e en="F" t="00181064" n="FramingType"></e>
-<e en="F" t="00181065" n="FrameTimeVector"></e>
-<e en="F" t="00181066" n="FrameDelay"></e>
-<e en="F" t="00181067" n="ImageTriggerDelay"></e>
-<e en="F" t="00181068" n="MultiplexGroupTimeOffset"></e>
-<e en="F" t="00181069" n="TriggerTimeOffset"></e>
-<e en="F" t="0018106a" n="SynchronizationTrigger"></e>
-<e en="F" t="0018106c" n="SynchronizationChannel"></e>
-<e en="F" t="0018106e" n="TriggerSamplePosition"></e>
-<e en="F" t="00181070" n="RadiopharmaceuticalRoute"></e>
-<e en="F" t="00181071" n="RadiopharmaceuticalVolume"></e>
-<e en="F" t="00181072" n="RadiopharmaceuticalStartTime"></e>
-<e en="F" t="00181073" n="RadiopharmaceuticalStopTime"></e>
-<e en="F" t="00181074" n="RadionuclideTotalDose"></e>
-<e en="F" t="00181075" n="RadionuclideHalfLife"></e>
-<e en="F" t="00181076" n="RadionuclidePositronFraction"></e>
-<e en="F" t="00181077" n="RadiopharmaceuticalSpecificActivity"></e>
-<e en="T" t="00181078" n="Radiopharmaceutical Start DateTime">@remove()</e>
-<e en="T" t="00181079" n="Radiopharmaceutical Stop DateTime">@remove()</e>
-<e en="F" t="00181080" n="BeatRejectionFlag"></e>
-<e en="F" t="00181081" n="LowRRValue"></e>
-<e en="F" t="00181082" n="HighRRValue"></e>
-<e en="F" t="00181083" n="IntervalsAcquired"></e>
-<e en="F" t="00181084" n="IntervalsRejected"></e>
-<e en="F" t="00181085" n="PVCRejection"></e>
-<e en="F" t="00181086" n="SkipBeats"></e>
-<e en="F" t="00181088" n="HeartRate"></e>
-<e en="F" t="00181090" n="CardiacNumberOfImages"></e>
-<e en="F" t="00181094" n="TriggerWindow"></e>
-<e en="F" t="00181100" n="ReconstructionDiameter"></e>
-<e en="F" t="00181110" n="DistanceSourceToDetector"></e>
-<e en="F" t="00181111" n="DistanceSourceToPatient"></e>
-<e en="F" t="00181114" n="EstimatedRadiographicMagnificationFactor"></e>
-<e en="F" t="00181120" n="GantryDetectorTilt"></e>
-<e en="F" t="00181121" n="GantryDetectorSlew"></e>
-<e en="F" t="00181130" n="TableHeight"></e>
-<e en="F" t="00181131" n="TableTraverse"></e>
-<e en="F" t="00181134" n="TableMotion"></e>
-<e en="F" t="00181135" n="TableVerticalIncrement"></e>
-<e en="F" t="00181136" n="TableLateralIncrement"></e>
-<e en="F" t="00181137" n="TableLongitudinalIncrement"></e>
-<e en="F" t="00181138" n="TableAngle"></e>
-<e en="F" t="0018113a" n="TableType"></e>
-<e en="F" t="00181140" n="RotationDirection"></e>
-<e en="F" t="00181141" n="AngularPosition"></e>
-<e en="F" t="00181142" n="RadialPosition"></e>
-<e en="F" t="00181143" n="ScanArc"></e>
-<e en="F" t="00181144" n="AngularStep"></e>
-<e en="F" t="00181145" n="CenterOfRotationOffset"></e>
-<e en="F" t="00181147" n="FieldOfViewShape"></e>
-<e en="F" t="00181149" n="FieldOfViewDimension"></e>
-<e en="F" t="00181150" n="ExposureTime"></e>
-<e en="F" t="00181151" n="XRayTubeCurrent"></e>
-<e en="F" t="00181152" n="Exposure"></e>
-<e en="F" t="00181153" n="ExposureInuAs"></e>
-<e en="F" t="00181154" n="AveragePulseWidth"></e>
-<e en="F" t="00181155" n="RadiationSetting"></e>
-<e en="F" t="00181156" n="RectificationType"></e>
-<e en="F" t="0018115a" n="RadiationMode"></e>
-<e en="F" t="0018115e" n="ImageAreaDoseProduct"></e>
-<e en="F" t="00181160" n="FilterType"></e>
-<e en="F" t="00181161" n="TypeOfFilters"></e>
-<e en="F" t="00181162" n="IntensifierSize"></e>
-<e en="F" t="00181164" n="ImagerPixelSpacing"></e>
-<e en="F" t="00181166" n="Grid"></e>
-<e en="F" t="00181170" n="GeneratorPower"></e>
-<e en="F" t="00181180" n="CollimatorGridName"></e>
-<e en="F" t="00181181" n="CollimatorType"></e>
-<e en="F" t="00181182" n="FocalDistance"></e>
-<e en="F" t="00181183" n="XFocusCenter"></e>
-<e en="F" t="00181184" n="YFocusCenter"></e>
-<e en="F" t="00181190" n="FocalSpot"></e>
-<e en="F" t="00181191" n="AnodeTargetMaterial"></e>
-<e en="F" t="001811a0" n="BodyPartThickness"></e>
-<e en="F" t="001811a2" n="CompressionForce"></e>
-<e en="T" t="00181200" n="DateOfLastCalibration">@remove()</e>
-<e en="F" t="00181201" n="TimeOfLastCalibration"></e>
-<e en="F" t="00181210" n="ConvolutionKernel"></e>
-<e en="F" t="00181242" n="ActualFrameDuration"></e>
-<e en="F" t="00181243" n="CountRate"></e>
-<e en="F" t="00181244" n="PreferredPlaybackSequencing"></e>
-<e en="F" t="00181250" n="ReceiveCoilName"></e>
-<e en="F" t="00181251" n="TransmitCoilName"></e>
-<e en="F" t="00181260" n="PlateType"></e>
-<e en="F" t="00181261" n="PhosphorType"></e>
-<e en="F" t="00181300" n="ScanVelocity"></e>
-<e en="F" t="00181301" n="WholeBodyTechnique"></e>
-<e en="F" t="00181302" n="ScanLength"></e>
-<e en="F" t="00181310" n="AcquisitionMatrix"></e>
-<e en="F" t="00181312" n="PhaseEncodingDirection"></e>
-<e en="F" t="00181314" n="FlipAngle"></e>
-<e en="F" t="00181315" n="VariableFlipAngleFlag"></e>
-<e en="F" t="00181316" n="SAR"></e>
-<e en="F" t="00181318" n="dBDt"></e>
-<e en="T" t="00181400" n="AcquisitionDeviceProcessingDescription">@remove()</e>
-<e en="F" t="00181401" n="AcquisitionDeviceProcessingCode"></e>
-<e en="F" t="00181402" n="CassetteOrientation"></e>
-<e en="F" t="00181403" n="CassetteSize"></e>
-<e en="F" t="00181404" n="ExposuresOnPlate"></e>
-<e en="F" t="00181405" n="RelativeXRayExposure"></e>
-<e en="F" t="00181450" n="ColumnAngulation"></e>
-<e en="F" t="00181460" n="TomoLayerHeight"></e>
-<e en="F" t="00181470" n="TomoAngle"></e>
-<e en="F" t="00181480" n="TomoTime"></e>
-<e en="F" t="00181490" n="TomoType"></e>
-<e en="F" t="00181491" n="TomoClass"></e>
-<e en="F" t="00181495" n="NumberofTomosynthesisSourceImages"></e>
-<e en="F" t="00181500" n="PositionerMotion"></e>
-<e en="F" t="00181508" n="PositionerType"></e>
-<e en="F" t="00181510" n="PositionerPrimaryAngle"></e>
-<e en="F" t="00181511" n="PositionerSecondaryAngle"></e>
-<e en="F" t="00181520" n="PositionerPrimaryAngleIncrement"></e>
-<e en="F" t="00181521" n="PositionerSecondaryAngleIncrement"></e>
-<e en="F" t="00181530" n="DetectorPrimaryAngle"></e>
-<e en="F" t="00181531" n="DetectorSecondaryAngle"></e>
-<e en="F" t="00181600" n="ShutterShape"></e>
-<e en="F" t="00181602" n="ShutterLeftVerticalEdge"></e>
-<e en="F" t="00181604" n="ShutterRightVerticalEdge"></e>
-<e en="F" t="00181606" n="ShutterUpperHorizontalEdge"></e>
-<e en="F" t="00181608" n="ShutterLowerHorizontalEdge"></e>
-<e en="F" t="00181610" n="CenterOfCircularShutter"></e>
-<e en="F" t="00181612" n="RadiusOfCircularShutter"></e>
-<e en="F" t="00181620" n="VerticesOfPolygonalShutter"></e>
-<e en="F" t="00181622" n="ShutterPresentationValue"></e>
-<e en="F" t="00181623" n="ShutterOverlayGroup"></e>
-<e en="F" t="00181700" n="CollimatorShape"></e>
-<e en="F" t="00181702" n="CollimatorLeftVerticalEdge"></e>
-<e en="F" t="00181704" n="CollimatorRightVerticalEdge"></e>
-<e en="F" t="00181706" n="CollimatorUpperHorizontalEdge"></e>
-<e en="F" t="00181708" n="CollimatorLowerHorizontalEdge"></e>
-<e en="F" t="00181710" n="CenterOfCircularCollimator"></e>
-<e en="F" t="00181712" n="RadiusOfCircularCollimator"></e>
-<e en="F" t="00181720" n="VerticesOfPolygonalCollimator"></e>
-<e en="F" t="00181800" n="AcquisitionTimeSynchronized"></e>
-<e en="F" t="00181801" n="TimeSource"></e>
-<e en="F" t="00181802" n="TimeDistributionProtocol"></e>
-<e en="T" t="00184000" n="AcquisitionComments">@remove()</e>
-<e en="F" t="00185000" n="OutputPower"></e>
-<e en="F" t="00185010" n="TransducerData"></e>
-<e en="F" t="00185012" n="FocusDepth"></e>
-<e en="F" t="00185020" n="ProcessingFunction"></e>
-<e en="F" t="00185021" n="PostprocessingFunction"></e>
-<e en="F" t="00185022" n="MechanicalIndex"></e>
-<e en="F" t="00185024" n="ThermalIndex"></e>
-<e en="F" t="00185026" n="CranialThermalIndex"></e>
-<e en="F" t="00185027" n="SoftTissueThermalIndex"></e>
-<e en="F" t="00185028" n="SoftTissueFocusThermalIndex"></e>
-<e en="F" t="00185029" n="SoftTissueSurfaceThermalIndex"></e>
-<e en="F" t="00185050" n="DepthOfScanField"></e>
-<e en="F" t="00185100" n="PatientPosition"></e>
-<e en="F" t="00185101" n="ViewPosition"></e>
-<e en="F" t="00185104" n="ProjectionEponymousNameCodeSeq"></e>
-<e en="F" t="00185210" n="ImageTransformationMatrix"></e>
-<e en="F" t="00185212" n="ImageTranslationVector"></e>
-<e en="F" t="00186000" n="Sensitivity"></e>
-<e en="F" t="00186011" n="SeqOfUltrasoundRegions"></e>
-<e en="F" t="00186012" n="RegionSpatialFormat"></e>
-<e en="F" t="00186014" n="RegionDataType"></e>
-<e en="F" t="00186016" n="RegionFlags"></e>
-<e en="F" t="00186018" n="RegionLocationMinX0"></e>
-<e en="F" t="0018601a" n="RegionLocationMinY0"></e>
-<e en="F" t="0018601c" n="RegionLocationMaxX1"></e>
-<e en="F" t="0018601e" n="RegionLocationMaxY1"></e>
-<e en="F" t="00186020" n="ReferencePixelX0"></e>
-<e en="F" t="00186022" n="ReferencePixelY0"></e>
-<e en="F" t="00186024" n="PhysicalUnitsXDirection"></e>
-<e en="F" t="00186026" n="PhysicalUnitsYDirection"></e>
-<e en="F" t="00186028" n="ReferencePixelPhysicalValueX"></e>
-<e en="F" t="0018602a" n="ReferencePixelPhysicalValueY"></e>
-<e en="F" t="0018602c" n="PhysicalDeltaX"></e>
-<e en="F" t="0018602e" n="PhysicalDeltaY"></e>
-<e en="F" t="00186030" n="TransducerFrequency"></e>
-<e en="F" t="00186031" n="TransducerType"></e>
-<e en="F" t="00186032" n="PulseRepetitionFrequency"></e>
-<e en="F" t="00186034" n="DopplerCorrectionAngle"></e>
-<e en="F" t="00186036" n="SteeringAngle"></e>
-<e en="F" t="00186038" n="DopplerSampleVolumeXPosition"></e>
-<e en="F" t="0018603a" n="DopplerSampleVolumeYPosition"></e>
-<e en="F" t="0018603c" n="TMLinePositionX0"></e>
-<e en="F" t="0018603e" n="TMLinePositionY0"></e>
-<e en="F" t="00186040" n="TMLinePositionX1"></e>
-<e en="F" t="00186042" n="TMLinePositionY1"></e>
-<e en="F" t="00186044" n="PixelComponentOrganization"></e>
-<e en="F" t="00186046" n="PixelComponentMask"></e>
-<e en="F" t="00186048" n="PixelComponentRangeStart"></e>
-<e en="F" t="0018604a" n="PixelComponentRangeStop"></e>
-<e en="F" t="0018604c" n="PixelComponentPhysicalUnits"></e>
-<e en="F" t="0018604e" n="PixelComponentDataType"></e>
-<e en="F" t="00186050" n="NumberOfTableBreakPoints"></e>
-<e en="F" t="00186052" n="TableOfXBreakPoints"></e>
-<e en="F" t="00186054" n="TableOfYBreakPoints"></e>
-<e en="F" t="00186056" n="NumberOfTableEntries"></e>
-<e en="F" t="00186058" n="TableOfPixelValues"></e>
-<e en="F" t="0018605a" n="TableOfParameterValues"></e>
-<e en="F" t="00187000" n="DetectorConditionsNominalFlag"></e>
-<e en="F" t="00187001" n="DetectorTemperature"></e>
-<e en="F" t="00187004" n="DetectorType"></e>
-<e en="F" t="00187005" n="DetectorConfiguration"></e>
-<e en="F" t="00187006" n="DetectorDescription"></e>
-<e en="F" t="00187008" n="DetectorMode"></e>
-<e en="T" t="0018700a" n="DetectorID">@remove()</e>
-<e en="T" t="0018700c" n="DateOfLastDetectorCalibration">@remove()</e>
-<e en="F" t="0018700e" n="TimeOfLastDetectorCalibration"></e>
 <e en="F" t="00187010" n="ExposuresOnDetectorSinceLastCalibration"></e>
 <e en="F" t="00187011" n="ExposuresOnDetectorSinceManufactured"></e>
 <e en="F" t="00187012" n="DetectorTimeSinceLastExposure"></e>
@@ -685,8 +687,6 @@ bool Presets::addAssignmentsDefault()
 <e en="T" t="00189424" n="AcquisitionProtocolDescription">@remove()</e>
 <e en="T" t="0018a003" n="ContributionDescription">@remove()</e>
 
-<e en="T" t="0020000d" n="StudyInstanceUID">@hashuid(@UIDROOT,this)</e>
-<e en="T" t="0020000e" n="SeriesInstanceUID">@hashuid(@UIDROOT,this)</e>
 <e en="T" t="00200010" n="StudyID">@empty()</e>
 <e en="F" t="00200011" n="SeriesNumber"></e>
 <e en="F" t="00200012" n="AcquisitionNumber"></e>
