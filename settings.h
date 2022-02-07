@@ -8,11 +8,12 @@
 #define SETTINGS_MODE_BLACKLIST 0
 #define SETTINGS_MODE_WHITELIST 1
 
-#define COMMAND_ID_KEEP   "keep"
-#define COMMAND_ID_SAFE   "safe"
+#define COMMAND_ID_KEEP "keep"
+#define COMMAND_ID_SAFE "safe"
 #define COMMAND_ID_REMOVE "remove"
-#define COMMAND_ID_CLEAR  "clear"
-#define COMMAND_ID_SET    "set"
+#define COMMAND_ID_CLEAR "clear"
+#define COMMAND_ID_SET "set"
+#define COMMAND_ID_TRUNCDATE "truncdate"
 
 #define SET_MACRO_PROJECT_NAME "@project_name@"
 #define SET_MACRO_PROJECT_OWNER "@project_owner@"
@@ -37,7 +38,8 @@ public:
         SAFE,
         REMOVE,
         CLEAR,
-        SET
+        SET,
+        TRUNCDATE
     };
 
     TagEntry()
@@ -73,6 +75,8 @@ public:
             return QString(COMMAND_ID_CLEAR);
         case SET:
             return QString(COMMAND_ID_SET);
+        case TRUNCDATE:
+            return QString(COMMAND_ID_TRUNCDATE);
         default:
             return "ERROR";
         }
@@ -105,7 +109,9 @@ public:
         selectedPreset=DEFAULT;
         projectOwner="";
         projectName="";
-        projectPrefix="";        
+        projectPrefix="";      
+        removeUnknownTags=false;
+        removeSafeTags=false;
     }
 
     bool isPrepared;
@@ -117,6 +123,9 @@ public:
     QString projectPrefix;
     Preset selectedPreset;
     QMap<QString, TagEntry> tags;
+
+    bool removeUnknownTags;
+    bool removeSafeTags;
    
     bool prepareSettings(QString projectID);
     bool addTag(QString key, QString value, QString source);

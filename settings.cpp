@@ -48,6 +48,8 @@ bool ModuleSettings::prepareSettings(QString projectID)
     projectName = "Undefined";
     projectPrefix = "";
     selectedPreset=DEFAULT;
+    removeUnknownTags=false;
+    removeSafeTags=false;
 
     // Read general settings
     if (generalSettings.contains("name")) 
@@ -70,6 +72,28 @@ bool ModuleSettings::prepareSettings(QString projectID)
             selectedPreset=NONE;
         }
     }
+    if (generalSettings.contains("remove_unknown_tags")) 
+    {
+        if (generalSettings.value("remove_unknown_tags").toString().toLower()=="false")
+        {
+            removeUnknownTags=false;
+        }
+        else
+        {
+            removeUnknownTags=true;
+        }
+    }
+    if (generalSettings.contains("remove_safe_tags")) 
+    {
+        if (generalSettings.value("remove_safe_tags").toString().toLower()=="false")
+        {
+            removeSafeTags=false;
+        }
+        else
+        {
+            removeSafeTags=true;
+        }
+    }
 
     // Read project specific settings
     if ((!cleanProjectID.isEmpty()) &&  (RTI->settingsJson.contains(cleanProjectID)))
@@ -89,13 +113,34 @@ bool ModuleSettings::prepareSettings(QString projectID)
         {
             projectPrefix = projectSettings.value("prefix").toString();
         }
-
         if (projectSettings.contains("preset")) 
         {
             selectedPreset=DEFAULT;
             if (projectSettings.value("preset").toString().toLower()==PRESET_NONE)
             {
                 selectedPreset=NONE;
+            }
+        }
+        if (projectSettings.contains("remove_unknown_tags")) 
+        {
+            if (projectSettings.value("remove_unknown_tags").toString().toLower()=="false")
+            {
+                removeUnknownTags=false;
+            }
+            else
+            {
+                removeUnknownTags=true;
+            }
+        }
+        if (projectSettings.contains("remove_safe_tags")) 
+        {
+            if (projectSettings.value("remove_safe_tags").toString().toLower()=="false")
+            {
+                removeSafeTags=false;
+            }
+            else
+            {
+                removeSafeTags=true;
             }
         }
     }
@@ -141,6 +186,21 @@ bool ModuleSettings::prepareSettings(QString projectID)
     }
 
     replaceAllParameterMacros();
+
+    if (removeSafeTags)
+    {
+        OUT("-- Removing tags flagged as SAFE")
+
+        QMapIterator<QString, TagEntry> i(tags);
+        while (i.hasNext()) 
+        {
+            i.next();
+            if (i.value().command==TagEntry::SAFE)
+            {
+                tags[i.key()].command = TagEntry::REMOVE;
+            }
+        }
+    }
 
     printTags();
     isPrepared=true;
@@ -213,6 +273,10 @@ bool ModuleSettings::addTag(QString key, QString value, QString source)
         parameter.chop(1);
         parameter.remove(0,parameter.indexOf("(")+1);
     }
+    else if (value.startsWith(COMMAND_ID_TRUNCDATE))
+    {
+        command = TagEntry::TRUNCDATE;
+    }    
     else
     {
         OUT("ERROR: Invalid command found " << value.toStdString())

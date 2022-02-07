@@ -83,6 +83,16 @@ bool readSettings()
 }
 
 
+bool removeUnknownTags(DcmDataset* dataset, DcmMetaInfo* metainfo)
+{
+    // TODO
+    // TODO: If option enabled, remove all private tags -> Loop over all tags and check if they are private. If yes, add to removal stack
+    // TODO: Remove all tags stored in removal stack
+
+    return true;
+}
+
+
 bool processTags(DcmDataset* dataset, DcmMetaInfo* metainfo)
 {   
     QString currentValue = "";
@@ -109,6 +119,32 @@ bool processTags(DcmDataset* dataset, DcmMetaInfo* metainfo)
             if (dataset->insertEmptyElement(tagKey, OFTrue).bad())
             {
                 OUT("ERROR: Unable to CLEAR tag " << i.key().toStdString())
+                return false;
+            }
+            break;
+        case TagEntry::TRUNCDATE:
+            currentValue = "";
+            if (dataset->tagExists(tagKey))
+            {
+                OFString buffer = "";
+                if (dataset->findAndGetOFString(tagKey, buffer).bad())
+                {
+                    OUT("ERROR: Unable to read value from tag " << i.key().toStdString())
+                    return false;
+                }
+                currentValue = QString(buffer.c_str());
+            }
+            if (currentValue.length() == 8) 
+            {
+                currentValue = currentValue.left(4)+"0101";
+            }
+            else 
+            {
+                currentValue = "";
+            }
+            if (dataset->putAndInsertString(tagKey, currentValue.toUtf8(), OFTrue).bad())
+            {
+                OUT("ERROR: Unable to insert TRUNCDATE tag " << i.key().toStdString())
                 return false;
             }
             break;
@@ -202,9 +238,14 @@ bool processFile(QFileInfo currentFile)
         return false;
     }
 
-    // TODO: If option enabled, remove all untouched DICOM tags -> Loop over all tags and check if they are contained in tags list. If not, add to removal stack
-    // TODO: If option enabled, remove all private tags -> Loop over all tags and check if they are private. If yes, add to removal stack
-    // TODO: Remove all tags stored in removal stack
+    if (RTI->settings.removeUnknownTags)
+    {
+        if (!removeUnknownTags(dcmFile.getDataset(), dcmFile.getMetaInfo()))
+        {
+            OUT("Unable to remove unknown tags from file " << currentFile.fileName().toStdString());
+            return false;
+        }
+    }
 
     OFCondition writeStatus = dcmFile.saveFile(outputFilename);
     if (!writeStatus.good())
