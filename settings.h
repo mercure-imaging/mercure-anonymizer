@@ -112,6 +112,8 @@ public:
         projectPrefix="";      
         removeUnknownTags=false;
         removeSafeTags=false;
+        removeCurves = false;
+        removeOverlays = false;
     }
 
     bool isPrepared;
@@ -126,6 +128,8 @@ public:
 
     bool removeUnknownTags;
     bool removeSafeTags;
+    bool removeCurves;
+    bool removeOverlays;
    
     bool prepareSettings(QString projectID);
     bool addTag(QString key, QString value, QString source);

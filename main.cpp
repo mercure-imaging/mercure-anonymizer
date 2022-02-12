@@ -83,11 +83,102 @@ bool readSettings()
 }
 
 
-bool removeUnknownTags(DcmDataset* dataset, DcmMetaInfo* metainfo)
+bool removeUnknownTags(DcmDataset* dataset, DcmMetaInfo* /*metainfo*/)
 {
-    // TODO
-    // TODO: If option enabled, remove all private tags -> Loop over all tags and check if they are private. If yes, add to removal stack
-    // TODO: Remove all tags stored in removal stack
+    DcmStack stack;
+    DcmObject* dcmObject = nullptr;
+    OFCondition status = dataset->nextObject(stack, OFTrue);
+
+    Uint16 gTag = 0;
+    Uint16 eTag = 0;
+
+    QMap<QString, TagEntry> removalList;
+    QString elementID = "";
+
+    while (status.good())
+    {
+        dcmObject = stack.top();
+        gTag = dcmObject->getGTag();
+        eTag = dcmObject->getETag();
+        elementID = "(" + QStringLiteral("%1").arg(gTag, 4, 16, QLatin1Char('0')) + "," + QStringLiteral("%1").arg(eTag, 4, 16, QLatin1Char('0')) + ")";
+
+        if (!RTI->settings.tags.contains(elementID))
+        {
+            removalList.insert(elementID, TagEntry(gTag, eTag, TagEntry::REMOVE, "", ""));
+        }
+
+        status = dataset->nextObject(stack, OFTrue);
+    }
+
+    QMapIterator<QString, TagEntry> i(removalList);
+    while (i.hasNext()) 
+    {
+        i.next();
+        DcmTagKey tagKey(i.value().group, i.value().element);
+        if ((dataset->tagExists(tagKey)) && (dataset->findAndDeleteElement(tagKey).bad()))
+        {
+            OUT("ERROR: Unable to REMOVE tag " << i.key().toStdString())
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
+bool removeCurvesOverlays(DcmDataset* dataset, DcmMetaInfo* /*metainfo*/)
+{
+    if ((!RTI->settings.removeCurves) && (!RTI->settings.removeOverlays))
+    {
+        // Nothing to be done
+        return true;
+    }
+
+    DcmStack stack;
+    DcmObject* dcmObject = nullptr;
+    OFCondition status = dataset->nextObject(stack, OFTrue);
+
+    Uint16 gTag = 0;
+    Uint16 eTag = 0;
+
+    QMap<QString, TagEntry> removalList;
+    QString elementID = "";
+
+    bool removeTag = false;
+    while (status.good())
+    {
+        dcmObject = stack.top();
+        gTag = dcmObject->getGTag();
+
+        removeTag = false;
+        if ((RTI->settings.removeCurves) && (gTag >= 0x5000) && (gTag <= 0x501E))
+        {
+            removeTag = true;
+        }
+        if ((RTI->settings.removeOverlays) && (gTag >= 0x6000) && (gTag <= 0x601E))
+        {
+            removeTag = true;
+        }        
+        if (removeTag)
+        {
+            elementID = "(" + QStringLiteral("%1").arg(gTag, 4, 16, QLatin1Char('0')) + "," + QStringLiteral("%1").arg(eTag, 4, 16, QLatin1Char('0')) + ")";
+            removalList.insert(elementID, TagEntry(gTag, eTag, TagEntry::REMOVE, "", ""));
+        }
+
+        status = dataset->nextObject(stack, OFTrue);
+    }
+
+    QMapIterator<QString, TagEntry> i(removalList);
+    while (i.hasNext()) 
+    {
+        i.next();
+        DcmTagKey tagKey(i.value().group, i.value().element);
+        if ((dataset->tagExists(tagKey)) && (dataset->findAndDeleteElement(tagKey).bad()))
+        {
+            OUT("ERROR: Unable to REMOVE tag " << i.key().toStdString())
+            return false;
+        }
+    }
 
     return true;
 }
@@ -238,6 +329,12 @@ bool processFile(QFileInfo currentFile)
         return false;
     }
 
+    if (!removeCurvesOverlays(dcmFile.getDataset(), dcmFile.getMetaInfo()))
+    {
+        OUT("Unable to remove curves or overlays from file " << currentFile.fileName().toStdString());
+        return false;
+    }
+
     if (RTI->settings.removeUnknownTags)
     {
         if (!removeUnknownTags(dcmFile.getDataset(), dcmFile.getMetaInfo()))
@@ -338,7 +435,7 @@ int main(int argc, char *argv[])
     }
 
     QDateTime endTime = QDateTime::currentDateTime();
-    int durationSecs = (int) startTime.secsTo(endTime);
+    int durationSecs = static_cast<int>(startTime.secsTo(endTime));
     OUT("Done (" << durationSecs << " secs)")
     OUT("Processed files: " << RTI->processedFiles)    
     OUT("")

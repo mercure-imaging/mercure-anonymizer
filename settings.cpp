@@ -47,9 +47,11 @@ bool ModuleSettings::prepareSettings(QString projectID)
     projectOwner = "Unknown";
     projectName = "Undefined";
     projectPrefix = "";
-    selectedPreset=DEFAULT;
-    removeUnknownTags=false;
-    removeSafeTags=false;
+    selectedPreset = DEFAULT;
+    removeSafeTags = false;
+    removeUnknownTags = true;
+    removeCurves = true;
+    removeOverlays = true;
 
     // Read general settings
     if (generalSettings.contains("name")) 
@@ -92,6 +94,28 @@ bool ModuleSettings::prepareSettings(QString projectID)
         else
         {
             removeSafeTags=true;
+        }
+    }
+    if (generalSettings.contains("remove_curves")) 
+    {
+        if (generalSettings.value("remove_curves").toString().toLower()=="false")
+        {
+            removeCurves=false;
+        }
+        else
+        {
+            removeCurves=true;
+        }
+    }
+    if (generalSettings.contains("remove_overlays")) 
+    {
+        if (generalSettings.value("remove_overlays").toString().toLower()=="false")
+        {
+            removeOverlays=false;
+        }
+        else
+        {
+            removeOverlays=true;
         }
     }
 
@@ -141,6 +165,28 @@ bool ModuleSettings::prepareSettings(QString projectID)
             else
             {
                 removeSafeTags=true;
+            }
+        }
+        if (projectSettings.contains("remove_curves")) 
+        {
+            if (projectSettings.value("remove_curves").toString().toLower()=="false")
+            {
+                removeCurves=false;
+            }
+            else
+            {
+                removeCurves=true;
+            }
+        }
+        if (projectSettings.contains("remove_overlays")) 
+        {
+            if (projectSettings.value("remove_overlays").toString().toLower()=="false")
+            {
+                removeOverlays=false;
+            }
+            else
+            {
+                removeOverlays=true;
             }
         }
     }
@@ -200,6 +246,19 @@ bool ModuleSettings::prepareSettings(QString projectID)
                 tags[i.key()].command = TagEntry::REMOVE;
             }
         }
+    }
+
+    if (removeUnknownTags)
+    {
+        OUT("-- Removing all unknown tags")
+    }
+    if (removeCurves)
+    {
+        OUT("-- Removing embedded curves")
+    }
+    if (removeOverlays)
+    {
+        OUT("-- Removing embedded overlays")
     }
 
     printTags();

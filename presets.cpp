@@ -24,7 +24,6 @@ bool Presets::addAssignments()
 bool Presets::addAssignmentsDefault()
 {
     bool res = true;
-        
     res &= addTag("(0008,0005)", "keep");
     res &= addTag("(0008,0008)", "safe");
     res &= addTag("(0008,0012)", "remove");
@@ -206,37 +205,6 @@ bool Presets::addAssignmentsDefault()
     res &= addTag("(0018,0023)", "keep");    
     res &= addTag("(0018,0024)", "keep");    
     res &= addTag("(0018,0025)", "keep");    
-    res &= addTag("(0060,3000)", "remove");    
-    res &= addTag("(0060,4000)", "remove");    
-    res &= addTag("(0070,031a)", "set(@random_uid@)");    
-    res &= addTag("(0088,0140)", "set(@random_uid@)");    
-    res &= addTag("(0088,0200)", "remove");    
-    res &= addTag("(0088,0906)", "remove");    
-    res &= addTag("(0088,0910)", "remove");    
-    res &= addTag("(0088,0912)", "remove");    
-    res &= addTag("(2030,0020)", "remove");    
-    res &= addTag("(3006,0024)", "set(@random_uid@)");    
-    res &= addTag("(3006,00c2)", "set(@random_uid@)");    
-    res &= addTag("(300a,0013)", "set(@random_uid@)");    
-    res &= addTag("(4000,0010)", "remove");    
-    res &= addTag("(4000,0100)", "remove");    
-    res &= addTag("(4000,4000)", "remove");    
-    res &= addTag("(4008,0042)", "remove");    
-    res &= addTag("(4008,0102)", "remove");    
-    res &= addTag("(4008,010a)", "remove");    
-    res &= addTag("(4008,010b)", "remove");    
-    res &= addTag("(4008,010c)", "remove");    
-    res &= addTag("(4008,0111)", "remove");    
-    res &= addTag("(4008,0114)", "remove");    
-    res &= addTag("(4008,0115)", "remove");    
-    res &= addTag("(4008,0118)", "remove");    
-    res &= addTag("(4008,0119)", "remove");    
-    res &= addTag("(4008,011a)", "remove");    
-    res &= addTag("(4008,0202)", "remove");    
-    res &= addTag("(4008,0300)", "remove");    
-    res &= addTag("(4008,4000)", "remove");    
-    res &= addTag("(fffa,fffa)", "remove");    
-    res &= addTag("(fffc,fffc)", "remove");    
     res &= addTag("(0018,0026)", "safe");    
     res &= addTag("(0018,0027)", "safe");    
     res &= addTag("(0018,0028)", "safe");    
@@ -1047,12 +1015,46 @@ bool Presets::addAssignmentsDefault()
     res &= addTag("(0040,db0c)", "set(@random_uid@)");
     res &= addTag("(0040,db0d)", "set(@random_uid@)");
     res &= addTag("(0040,db73)", "safe");
+    res &= addTag("(0060,3000)", "remove");    
+    res &= addTag("(0060,4000)", "remove");    
+    res &= addTag("(0070,031a)", "set(@random_uid@)");    
+    res &= addTag("(0088,0140)", "set(@random_uid@)");    
+    res &= addTag("(0088,0200)", "remove");    
+    res &= addTag("(0088,0906)", "remove");    
+    res &= addTag("(0088,0910)", "remove");    
+    res &= addTag("(0088,0912)", "remove");    
+    res &= addTag("(2030,0020)", "remove");    
+    res &= addTag("(3006,0024)", "set(@random_uid@)");    
+    res &= addTag("(3006,00c2)", "set(@random_uid@)");    
+    res &= addTag("(300a,0013)", "set(@random_uid@)");    
+    res &= addTag("(4000,0010)", "remove");    
+    res &= addTag("(4000,0100)", "remove");    
+    res &= addTag("(4000,4000)", "remove");    
+    res &= addTag("(4008,0042)", "remove");    
+    res &= addTag("(4008,0102)", "remove");    
+    res &= addTag("(4008,010a)", "remove");    
+    res &= addTag("(4008,010b)", "remove");    
+    res &= addTag("(4008,010c)", "remove");    
+    res &= addTag("(4008,0111)", "remove");    
+    res &= addTag("(4008,0114)", "remove");    
+    res &= addTag("(4008,0115)", "remove");    
+    res &= addTag("(4008,0118)", "remove");    
+    res &= addTag("(4008,0119)", "remove");    
+    res &= addTag("(4008,011a)", "remove");    
+    res &= addTag("(4008,0202)", "remove");    
+    res &= addTag("(4008,0300)", "remove");    
+    res &= addTag("(4008,4000)", "remove");    
+    res &= addTag("(fffa,fffa)", "remove");    
+    res &= addTag("(fffc,fffc)", "remove");    
+
+    // Clear the 3 UIDs that will be explicitly added later (ensures
+    // that these tags don't get removed by the "remove_unknown_tags" option)
+    res &= addTag("(0008,0018)", "clear");
+    res &= addTag("(0020,000d)", "clear");
+    res &= addTag("(0020,000e)", "clear");
+
+    // Keep the pixel data
+    res &= addTag("(7fe0,0010)", "keep");
 
     return res;
-/*
-<r en="T" t="curves">Remove curves</r>
-<r en="T" t="overlays">Remove overlays</r>
-<r en="T" t="privategroups">Remove private groups</r>
-<r en="F" t="unspecifiedelements">Remove unchecked elements</r>
-*/    
 }
