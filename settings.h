@@ -54,11 +54,11 @@ public:
 
     void set(Uint16 _group, Uint16 _element, Command _command, QString _parameter, QString _source)
     {
-        group=_group;
-        element=_element;
-        command=_command;
-        parameter=_parameter;
-        source=_source;
+        group = _group;
+        element = _element;
+        command = _command;
+        parameter = _parameter;
+        source = _source;
     }
 
     QString getCommandName() const
@@ -103,17 +103,18 @@ public:
 
     ModuleSettings() 
     {
-        isPrepared=false;
-        mode=SETTINGS_MODE_BLACKLIST;
-        currentProject="";
-        selectedPreset=DEFAULT;
-        projectOwner="";
-        projectName="";
-        projectPrefix="";      
-        removeUnknownTags=false;
-        removeSafeTags=false;
+        isPrepared = false;
+        mode = SETTINGS_MODE_BLACKLIST;
+        currentProject = "";
+        selectedPreset = DEFAULT;
+        projectOwner = "";
+        projectName = "";
+        projectPrefix = "";      
+        removeUnknownTags = false;
+        removeSafeTags = false;
         removeCurves = false;
         removeOverlays = false;
+        printAssignment = false;
     }
 
     bool isPrepared;
@@ -130,6 +131,7 @@ public:
     bool removeSafeTags;
     bool removeCurves;
     bool removeOverlays;
+    bool printAssignment;
    
     bool prepareSettings(QString projectID);
     bool addTag(QString key, QString value, QString source);

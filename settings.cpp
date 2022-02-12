@@ -52,6 +52,7 @@ bool ModuleSettings::prepareSettings(QString projectID)
     removeUnknownTags = true;
     removeCurves = true;
     removeOverlays = true;
+    printAssignment = false;
 
     // Read general settings
     if (generalSettings.contains("name")) 
@@ -116,6 +117,13 @@ bool ModuleSettings::prepareSettings(QString projectID)
         else
         {
             removeOverlays=true;
+        }
+    }
+    if (generalSettings.contains("print_assignment")) 
+    {
+        if (generalSettings.value("print_assignment").toString().toLower()=="true")
+        {
+            printAssignment=true;
         }
     }
 
@@ -261,7 +269,11 @@ bool ModuleSettings::prepareSettings(QString projectID)
         OUT("-- Removing embedded overlays")
     }
 
-    printTags();
+    if (printAssignment)
+    {
+        printTags();
+    }
+    
     isPrepared=true;
     return true;
 }

@@ -3,7 +3,7 @@
 
 #include <QtCore>
 
-#define VERSION "0.1.0-beta.1"
+#define VERSION "0.1.0-beta.2"
 #define TASKFILE "task.json"
 #define SEPARATOR '#'
 #define AET_PREFIX "AZ_"
