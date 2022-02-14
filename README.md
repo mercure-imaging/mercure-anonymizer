@@ -39,6 +39,14 @@ The prefix "AZ_" can be added to the AET and will be ignored for the project ass
 }
 ```
 
+The following entries should be added to each project section for documentation purpose. The corresponding values can be accessed through macros (see section below) and can be referenced when modifying tags.
+
+| Entry       | Description |
+| ----------- | ----------- |
+| name        | Name of the project |
+| owner       | Owner of the project (e.g., Kerberos ID) |
+| prefix      | Project prefix |
+
 ## Tag Assignment
 
 You can specify how each DICOM tag should be processed during the anonymization by adding entries to the configurations section (either "general" or the project-specific section) with the following form:
@@ -70,15 +78,39 @@ Additional options exist that affect the processing of the tags. These options c
 
 ## Helper Macros
 
-
+The following helpers macros can be used in combination with the set() command. They need to be used within the parameter of the set command (e.g., "set(@random_uid@)"):
+| Macro            | Description |
+| ---------------- | ----------- |
+| @project_name@   | Inserts the project name (as specified in the project section) |
+| @project_owner@  | Inserts the project owner (as specified in the project section) |
+| @project_prefix@   | Inserts the project prefix (as specified in the project section) |
+| @process_date@   | Inserts the processing date in format MMddyyyy |
+| @process_time@   | Inserts the processing time in format hhmmsszzz (i.e., start time of the module) |
+| @random_uid@   | Inserts a randomly generated UID (without any meaning) |
+| @fake_name@   | Inserts a fake name, randomly generated from names of greek letters |
+| @fake_mrn@   | Inserts a fake MRN generated from a time stamp (unique when using one server)  |
+| @fake_acc@   | Inserts a fake ACC number generated from a time stamp (unique when using one server)  |
+| @value@   | Inserts the current value of the tag |
 
 ## Presets
 
 To avoid having to provide extensive lists of tags assignments, the anonymizer provides presets for the tag assignment that can be selected in the general or project-specific sections. The preset initializes the tag assignment prior to evaluating the configuration sections. Individual tags can still be added or modified by writing tag-assignment entries into the general or project sections. Use the "print_assignment" option to review the assignment created by the different presets (see above).
 
-Currently, the following presets exist. Please reach out to the authors if you think that the preset assignments are incomplete or if additional specific presets would be useful.
+Currently, the following presets exist (please reach out to the authors if you think that the preset assignments are incomplete or if additional specific presets would be useful):
 
 | Preset      | Description |
 | ----------- | ----------- |
 | default     | Restrictive removal of all tags known to contain PHI and removal of unknown (e.g., private) tags |
 | none        | Empty assignment that keeps all tags as currently set |
+
+Presets can be selected globally or separately for each project by adding a "preset" entry to the general or project-specific section of the configuration (a project-specific setting overrules the general setting):
+```
+{
+    "general": {
+        "preset": "default"
+    },
+    "project1": {
+        "preset": "none"
+    }
+}
+```
