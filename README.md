@@ -58,7 +58,7 @@ The following commands are available:
 | set(value)  | Set the tag to the value provided as parameter. Often used with helper macros listed below |
 | truncdate   | Take the existing date value and change month and day to January 1st of the year |
 
-Several additional options exist that affect the processing of the tags. These can be set in the general section or in project-specific sections.
+Additional options exist that affect the processing of the tags. These options can be selected in the general section or in project-specific sections (note that values need to be provided as string, i.e. "true").
 
 | Option              | Values       | Default | Description |
 | ------------------- | ------------ | ------- | ----------- |
@@ -81,4 +81,4 @@ Currently, the following presets exist. Please reach out to the authors if you t
 | Preset      | Description |
 | ----------- | ----------- |
 | default     | Restrictive removal of all tags known to contain PHI and removal of unknown (e.g., private) tags |
-| none        | Empty assignment that keeps all tags as is |
+| none        | Empty assignment that keeps all tags as currently set |
