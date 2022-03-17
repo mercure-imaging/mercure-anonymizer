@@ -32,7 +32,8 @@ QString Helper::getAETfromTagsFile(QFileInfo currentFile)
         return "";
     }
 
-    return root.value("ReceiverAET").toString();
+    // Convert the AET to lower case to avoid problems with capitalization
+    return root.value("ReceiverAET").toString().toLower();
 }
 
 
@@ -107,6 +108,7 @@ QString Helper::getFakeName()
 
 QString Helper::getFakeMRN()
 {
+    // Generate a integer number from the time, ensuring that the number always increases
     QDateTime refDate(QDate(2020, 1, 1), QTime(0, 0, 0));
     return QString::number(QDateTime::currentMSecsSinceEpoch()-refDate.toMSecsSinceEpoch());
 }
@@ -114,6 +116,8 @@ QString Helper::getFakeMRN()
 
 QString Helper::getFakeACC()
 {
+    // Generate a integer number from the time, ensuring that the number always increases
+    // A different offset is used for the ACC and MRN to get two different numbers
     QDateTime refDate(QDate(2013, 4, 12), QTime(11, 13, 33));
     return QString::number(QDateTime::currentMSecsSinceEpoch()-refDate.toMSecsSinceEpoch());
 }
