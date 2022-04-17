@@ -77,18 +77,19 @@ Additional options exist that affect the processing of the tags. These options c
 ## Helper Macros
 
 The following helper macros can be used in combination with the set() command. They need to be used inside the parameter of the set command (e.g., "set(@random_uid@)"):
-| Macro            | Description |
-| ---------------- | ----------- |
-| @project_name@   | Inserts the project name (as specified in the project section) |
-| @project_owner@  | Inserts the project owner (as specified in the project section) |
+| Macro              | Description |
+| ------------------ | ----------- |
+| @project_name@     | Inserts the project name (as specified in the project section) |
+| @project_owner@    | Inserts the project owner (as specified in the project section) |
 | @project_prefix@   | Inserts the project prefix (as specified in the project section) |
-| @process_date@   | Inserts the processing date in format MMddyyyy |
-| @process_time@   | Inserts the processing time in format hhmmsszzz (i.e., start time of the module) |
-| @random_uid@   | Inserts a randomly generated UID (without any meaning) |
-| @fake_name@   | Inserts a fake name, randomly generated from names of greek letters |
-| @fake_mrn@   | Inserts a fake MRN, generated from a time stamp (unique when using one server)  |
-| @fake_acc@   | Inserts a fake ACC number, generated from a time stamp (unique when using one server)  |
-| @value@   | Inserts the current value of the tag |
+| @process_date@     | Inserts the processing date in format MMddyyyy |
+| @process_time@     | Inserts the processing time in format hhmmsszzz (i.e., start time of the module) |
+| @random_uid@       | Inserts a randomly generated UID (without any meaning) |
+| @fake_name@        | Inserts a fake name, randomly generated from names of greek letters |
+| @fake_mrn@         | Inserts a fake MRN, generated from a time stamp (unique when using one server)  |
+| @fake_acc@         | Inserts a fake ACC number, generated from a time stamp (unique when using one server)  |
+| @value@            | Inserts the original value of the current tag |
+| @value(gggg,eeee)@ | Inserts the original value of the tag (gggg,eeee) |
 
 ## Presets
 
