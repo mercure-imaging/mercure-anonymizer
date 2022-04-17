@@ -269,7 +269,7 @@ bool processTags(DcmDataset* dataset, DcmMetaInfo* metainfo)
                 }                
             }
 
-            // If the parameter for the tag contains the value macro referencing another tag (@value(xx,xx)@)
+            // If the parameter for the tag contains the value macro referencing another tag @value(xxxx,xxxx)@
             while (setParameter.indexOf(SET_MACRO_OTHERVALUE_OPEN)>=0)
             {
                 int closePosition = setParameter.indexOf(SET_MACRO_OTHERVALUE_CLOSE);
@@ -288,11 +288,10 @@ bool processTags(DcmDataset* dataset, DcmMetaInfo* metainfo)
                     OUT("ERROR: Invalid format of SET parameter for " << i.key().toStdString() << ": " << fullMacro.toStdString())        
                     return false;
                 }
-                QString replacementValue = "";                
 
                 bool okGroup=false;
-                Uint16 group = macroParameter.mid(0,4).toUInt(&okGroup, 16);
                 bool okElement=false;
+                Uint16 group = macroParameter.mid(0,4).toUInt(&okGroup, 16);
                 Uint16 element = macroParameter.mid(5,4).toUInt(&okElement, 16);
                 if ((!okGroup) || (!okElement))
                 {
@@ -300,6 +299,7 @@ bool processTags(DcmDataset* dataset, DcmMetaInfo* metainfo)
                     return false;
                 }
 
+                QString replacementValue = "";                
                 DcmTagKey refKey(group, element);
                 if (originalValues.tagExists(refKey))
                 {
@@ -311,10 +311,6 @@ bool processTags(DcmDataset* dataset, DcmMetaInfo* metainfo)
                     }
                     replacementValue = QString(refBuffer.c_str());
                 }
-
-                OUT("DBG: fullMacro " << fullMacro.toStdString())
-                OUT("DBG: param     " << macroParameter.toStdString())
-                OUT("DBG: value     " << replacementValue.toStdString())
                 
                 setParameter.replace(setParameter.indexOf(fullMacro), fullMacro.size(), replacementValue);
             }                                
