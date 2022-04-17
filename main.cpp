@@ -189,6 +189,11 @@ bool processTags(DcmDataset* dataset, DcmMetaInfo* metainfo)
     QString currentValue = "";
     QMapIterator<QString, TagEntry> i(RTI->settings.tags);
 
+    // Create deep copy of the values prior to processing, so that values can be 
+    // cross-referenced via the SET command
+    DcmDataset originalValues;
+    originalValues.copyFrom(*dataset);
+
     while (i.hasNext()) 
     {
         i.next();
@@ -242,7 +247,7 @@ bool processTags(DcmDataset* dataset, DcmMetaInfo* metainfo)
         case TagEntry::SET:
             QString setParameter = i.value().parameter;
 
-            // If the parameter for the tag contains the value macro, then fetch the current value and replace the macro
+            // If the parameter for the tag contains the value macro @value@, fetch the current value and replace the macro
             if (setParameter.contains(SET_MACRO_VALUE))
             {
                 currentValue = "";
@@ -263,6 +268,57 @@ bool processTags(DcmDataset* dataset, DcmMetaInfo* metainfo)
                     setParameter.replace(setParameter.indexOf(valueMacro), valueMacro.size(), currentValue);
                 }                
             }
+
+            // If the parameter for the tag contains the value macro referencing another tag (@value(xx,xx)@)
+            while (setParameter.indexOf(SET_MACRO_OTHERVALUE_OPEN)>=0)
+            {
+                int closePosition = setParameter.indexOf(SET_MACRO_OTHERVALUE_CLOSE);
+                if (closePosition < 0) 
+                {
+                    OUT("ERROR: Invalid format of SET parameter for " << i.key().toStdString())        
+                    return false;
+                }
+                int startPosition = setParameter.indexOf(SET_MACRO_OTHERVALUE_OPEN);
+                int paramStart = startPosition + QString(SET_MACRO_OTHERVALUE_OPEN).size();
+
+                QString fullMacro = setParameter.mid(startPosition, closePosition-startPosition+QString(SET_MACRO_OTHERVALUE_CLOSE).size());
+                QString macroParameter = setParameter.mid(paramStart, closePosition-paramStart);
+                if ((macroParameter.size()!=9) || (macroParameter[4] != ",")) 
+                {
+                    OUT("ERROR: Invalid format of SET parameter for " << i.key().toStdString() << ": " << fullMacro.toStdString())        
+                    return false;
+                }
+                QString replacementValue = "";                
+
+                bool okGroup=false;
+                Uint16 group = macroParameter.mid(0,4).toUInt(&okGroup, 16);
+                bool okElement=false;
+                Uint16 element = macroParameter.mid(5,4).toUInt(&okElement, 16);
+                if ((!okGroup) || (!okElement))
+                {
+                    OUT("ERROR: Invalid format of SET parameter for " << i.key().toStdString() << ": " << fullMacro.toStdString())        
+                    return false;
+                }
+
+                DcmTagKey refKey(group, element);
+                if (originalValues.tagExists(refKey))
+                {
+                    OFString refBuffer = "";
+                    if (originalValues.findAndGetOFString(refKey, refBuffer).bad())
+                    {
+                        OUT("ERROR: Unable to read value for macro " << fullMacro.toStdString())        
+                        return false;
+                    }
+                    replacementValue = QString(refBuffer.c_str());
+                }
+
+                OUT("DBG: fullMacro " << fullMacro.toStdString())
+                OUT("DBG: param     " << macroParameter.toStdString())
+                OUT("DBG: value     " << replacementValue.toStdString())
+                
+                setParameter.replace(setParameter.indexOf(fullMacro), fullMacro.size(), replacementValue);
+            }                                
+
             if (dataset->putAndInsertString(tagKey, setParameter.toUtf8(), OFTrue).bad())
             {
                 OUT("ERROR: Unable to SET tag " << i.key().toStdString())

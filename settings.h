@@ -25,6 +25,8 @@
 #define SET_MACRO_FAKE_MRN "@fake_mrn@"
 #define SET_MACRO_FAKE_ACC "@fake_acc@"
 #define SET_MACRO_VALUE "@value@"
+#define SET_MACRO_OTHERVALUE_OPEN "@value("
+#define SET_MACRO_OTHERVALUE_CLOSE ")@"
 
 #define PRESET_DEFAULT "default"
 #define PRESET_NONE "none"
