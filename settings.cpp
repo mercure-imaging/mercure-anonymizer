@@ -72,7 +72,15 @@ bool ModuleSettings::prepareSettings(QString projectID)
         selectedPreset=DEFAULT;
         if (generalSettings.value("preset").toString().toLower()==PRESET_NONE)
         {
-            selectedPreset=NONE;
+            selectedPreset = NONE;
+
+            // If the preset is set to none, then don't remove unknown tags, as
+            // this would remove all tags. Also keep overlays and curves, unless
+            // explicitly specified
+            removeSafeTags = false;
+            removeUnknownTags = false;
+            removeCurves = false;
+            removeOverlays = false;
         }
     }
     if (generalSettings.contains("remove_unknown_tags")) 
@@ -151,6 +159,14 @@ bool ModuleSettings::prepareSettings(QString projectID)
             if (projectSettings.value("preset").toString().toLower()==PRESET_NONE)
             {
                 selectedPreset=NONE;
+
+                // If the preset is set to none, then don't remove unknown tags, as
+                // this would remove all tags. Also keep overlays and curves, unless
+                // explicitly specified
+                removeSafeTags = false;
+                removeUnknownTags = false;
+                removeCurves = false;
+                removeOverlays = false;
             }
         }
         if (projectSettings.contains("remove_unknown_tags")) 
