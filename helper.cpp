@@ -102,7 +102,7 @@ QString Helper::getFakeName()
 {
     int firstIndex = QRandomGenerator::global()->bounded(0, GREEK_ALPHABET_COUNT);
     int lastIndex = QRandomGenerator::global()->bounded(0, GREEK_ALPHABET_COUNT);
-    return QString("^" + greek_alphabet[lastIndex] + "^" + greek_alphabet[firstIndex] + "^^^");
+    return QString(greek_alphabet[lastIndex] + "^" + greek_alphabet[firstIndex] + "^^^");
 }
 
 

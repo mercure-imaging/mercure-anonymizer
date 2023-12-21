@@ -26,7 +26,12 @@ SOURCES += runtime.cpp
 SOURCES += helper.cpp
 SOURCES += presets.cpp
 
+TARGET = ./bin/mercure-anonymizer
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+docker.commands = docker build . -t mercureimaging/mercure-anonymizer:latest
+QMAKE_EXTRA_TARGETS += docker
