@@ -24,6 +24,7 @@
 #define SET_MACRO_FAKE_NAME "@fake_name@"
 #define SET_MACRO_FAKE_MRN "@fake_mrn@"
 #define SET_MACRO_FAKE_ACC "@fake_acc@"
+#define SET_MACRO_HASH_ACC "@hash_acc@"
 #define SET_MACRO_VALUE "@value@"
 #define SET_MACRO_OTHERVALUE_OPEN "@value("
 #define SET_MACRO_OTHERVALUE_CLOSE ")@"
@@ -136,6 +137,7 @@ public:
     bool printAssignment;
    
     bool prepareSettings(QString projectID);
+    bool calculateHashACC();
     bool addTag(QString key, QString value, QString source);
 
 protected:

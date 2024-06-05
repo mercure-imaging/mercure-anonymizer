@@ -25,6 +25,7 @@ SOURCES += settings.cpp
 SOURCES += runtime.cpp
 SOURCES += helper.cpp
 SOURCES += presets.cpp
+SOURCES += external/siphash/siphash.c
 
 TARGET = ./bin/mercure-anonymizer
 

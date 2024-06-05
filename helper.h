@@ -7,6 +7,7 @@ class Helper
 {
 public:
     static QString getAETfromTagsFile(QFileInfo currentFile);
+    static QString getACCfromTagsFile(QFileInfo currentFile);
     static QString getFakeName();
     static QString getFakeMRN();
     static QString getFakeACC();

@@ -37,6 +37,37 @@ QString Helper::getAETfromTagsFile(QFileInfo currentFile)
 }
 
 
+QString Helper::getACCfromTagsFile(QFileInfo currentFile)
+{
+    QString filePath=currentFile.absolutePath() + "/" + currentFile.completeBaseName() + ".tags";
+    QFile tagsFile(filePath);
+    if (!tagsFile.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        OUT("ERROR: Unable to open tags file")
+        return "";
+    }
+    QByteArray data = tagsFile.readAll();
+    tagsFile.close();    
+
+    QJsonParseError errorPtr;
+    QJsonDocument doc = QJsonDocument::fromJson(data, &errorPtr);
+    if (doc.isNull()) 
+    {
+        OUT("ERROR: Unable to parse tags file")
+        return "";
+    }
+    QJsonObject root = doc.object();
+    if (!root.contains("AccessionNumber"))
+    {
+        OUT("ERROR: Invalid tags file (AccessionNumber not found)")
+        return "";
+    }
+
+    // Convert the Accession Number to lower case to avoid problems with capitalization
+    return root.value("AccessionNumber").toString().toLower();
+}
+
+
 void Helper::generateStudyUID()
 {
     char uid[100];

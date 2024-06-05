@@ -23,15 +23,18 @@ Runtime::Runtime()
     outputFolder = "";
     inputFiles.clear();
 
-    newStudyUID="";
-    newSeriesUID="";
-    newInstanceUID="";
+    newStudyUID = "";
+    newSeriesUID = "";
+    newInstanceUID = "";
 
     // Make sure that we are at least 1ms behind any prior anonymization to ensure we get a unique MRN/ACC
     QThread::msleep(1);
     fakeMRN = Helper::getFakeMRN(); 
     fakeACC = Helper::getFakeACC();
     fakeName = Helper::getFakeName();
+
+    hashACC = "";
+    accUsedForHash = "";
 
     dateString = QDateTime::currentDateTime().toString("MMddyyyy");
     timeString = QDateTime::currentDateTime().toString("hhmmsszzz");

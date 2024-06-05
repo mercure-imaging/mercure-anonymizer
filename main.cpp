@@ -359,7 +359,7 @@ bool processFile(QFileInfo currentFile)
     {
         QString projectName = "";
 
-        // Get project name from retriving AET
+        // Get project name from retrieving AET
         projectName = Helper::getAETfromTagsFile(currentFile);
         if (projectName.isEmpty())
         {
@@ -367,6 +367,9 @@ bool processFile(QFileInfo currentFile)
             OUT("Unable to determine target project. Aborting")
             return false;
         }     
+
+        // TODO: Read ACC during retrieval of AET to avoid repeated reading of file
+        RTI->accUsedForHash = Helper::getACCfromTagsFile(currentFile);
 
         // Compose the processing settings based on the selected project name
         if (!RTI->settings.prepareSettings(projectName))

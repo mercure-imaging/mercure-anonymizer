@@ -3,6 +3,10 @@
 #include "runtime.h"
 #include "presets.h"
 
+extern "C" 
+{
+    #include "external/siphash/siphash.h"
+}
 
 void TagEntry::replaceParameterMacros()
 {
@@ -14,7 +18,8 @@ void TagEntry::replaceParameterMacros()
     replaceMacro(SET_MACRO_PROCESS_TIME, RTI->timeString);
     replaceMacro(SET_MACRO_RANDOM_UID, RTI->randomUID);
     replaceMacro(SET_MACRO_FAKE_MRN, RTI->fakeMRN);    
-    replaceMacro(SET_MACRO_FAKE_ACC, RTI->fakeACC);    
+    replaceMacro(SET_MACRO_FAKE_ACC, RTI->fakeACC); 
+    replaceMacro(SET_MACRO_HASH_ACC, RTI->hashACC);        
     replaceMacro(SET_MACRO_FAKE_NAME, RTI->fakeName);    
 }
 
@@ -26,6 +31,20 @@ void TagEntry::replaceMacro(QString macro, QString value)
     {
         parameter.replace(parameter.indexOf(macro), macro.size(), value);
     }
+}
+
+
+bool ModuleSettings::calculateHashACC() 
+{
+    QString key = projectOwner.toLower().leftJustified(16, ' ');
+    QString value = projectName.toLower() + "-" + RTI->accUsedForHash.toLower();
+
+    uint8_t output_buffer[16];
+    uint8_t* output_pointer = output_buffer;
+
+    siphash(value.toStdString().c_str(), value.length(), key.toStdString().c_str(), output_pointer, 16);
+
+    return true;
 }
 
 
@@ -255,6 +274,7 @@ bool ModuleSettings::prepareSettings(QString projectID)
         }        
     }
 
+    calculateHashACC();
     replaceAllParameterMacros();
 
     if (removeSafeTags)

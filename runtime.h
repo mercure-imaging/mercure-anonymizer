@@ -34,6 +34,9 @@ public:
     QString fakeACC;
     QString fakeName;
 
+    QString hashACC;
+    QString accUsedForHash;
+
     int processedFiles;
 
 private:
