@@ -3,6 +3,7 @@
 #include "runtime.h"
 #include "presets.h"
 
+
 extern "C" 
 {
     #include "external/siphash/siphash.h"
@@ -36,13 +37,30 @@ void TagEntry::replaceMacro(QString macro, QString value)
 
 bool ModuleSettings::calculateHashACC() 
 {
+    if (RTI->accUsedForHash.isEmpty()) {
+        OUT("WARNING: No ACC given in DICOMs. Unable to calculate HashACC.")
+    }
+    if (projectOwner.isEmpty()) {
+        OUT("WARNING: No Project Owner provided. Unable to calculate HashACC.")
+    }
+    if (projectName.isEmpty()) {
+        OUT("WARNING: No Project Name provided. HashACC might not be unique.")
+    }
+
     QString key = projectOwner.toLower().leftJustified(16, ' ');
     QString value = projectName.toLower() + "-" + RTI->accUsedForHash.toLower();
 
-    uint8_t output_buffer[16];
+    int hashlen = 8;
+    uint8_t output_buffer[hashlen] = {};
     uint8_t* output_pointer = output_buffer;
+    siphash(value.toStdString().c_str(), value.length(), key.toStdString().c_str(), output_pointer, 8);
 
-    siphash(value.toStdString().c_str(), value.length(), key.toStdString().c_str(), output_pointer, 16);
+    RTI->hashACC="";
+    for (int i = 0; i < hashlen; i++) {
+        RTI->hashACC+=QString::number(output_buffer[hashlen-1-i], 16);
+    }
+    RTI->hashACC=RTI->hashACC.toUpper();
+    OUT("-- Hash ACC is " + RTI->hashACC.toStdString())
 
     return true;
 }

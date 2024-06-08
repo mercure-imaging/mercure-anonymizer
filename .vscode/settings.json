@@ -13,7 +13,14 @@
         "deque": "cpp",
         "string": "cpp",
         "unordered_map": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "istream": "cpp",
+        "ostream": "cpp",
+        "ratio": "cpp",
+        "functional": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "variant": "cpp"
     },
     "cSpell.words": [
         "anonymizer"
