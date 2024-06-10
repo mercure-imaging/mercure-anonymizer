@@ -57,7 +57,7 @@ bool ModuleSettings::calculateHashACC()
 
     RTI->hashACC="";
     for (int i = 0; i < hashlen; i++) {
-        RTI->hashACC+=QString::number(output_buffer[hashlen-1-i], 16);
+        RTI->hashACC+=QString::number(output_buffer[hashlen-1-i], 16).rightJustified(2, '0', true);
     }
     RTI->hashACC=RTI->hashACC.toUpper();
     OUT("-- Hash ACC is " + RTI->hashACC.toStdString())
