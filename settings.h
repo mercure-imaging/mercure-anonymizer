@@ -28,6 +28,7 @@
 #define SET_MACRO_VALUE "@value@"
 #define SET_MACRO_OTHERVALUE_OPEN "@value("
 #define SET_MACRO_OTHERVALUE_CLOSE ")@"
+#define SET_MACRO_COUNTER "@counter@"
 
 #define PRESET_DEFAULT "default"
 #define PRESET_NONE "none"
@@ -108,7 +109,6 @@ public:
     {
         isPrepared = false;
         mode = SETTINGS_MODE_BLACKLIST;
-        currentProject = "";
         selectedPreset = DEFAULT;
         projectOwner = "";
         projectName = "";
@@ -118,12 +118,12 @@ public:
         removeCurves = false;
         removeOverlays = false;
         printAssignment = false;
+        generateJournal = false;
     }
 
     bool isPrepared;
 
     int mode;
-    QString currentProject;
     QString projectOwner;
     QString projectName;
     QString projectPrefix;
@@ -135,6 +135,7 @@ public:
     bool removeCurves;
     bool removeOverlays;
     bool printAssignment;
+    bool generateJournal;
    
     bool prepareSettings(QString projectID);
     bool calculateHashACC();
@@ -143,6 +144,7 @@ public:
 protected:
     void replaceAllParameterMacros();
     void printTags();
+    bool getCounterAndIncrease();
 
 };
 

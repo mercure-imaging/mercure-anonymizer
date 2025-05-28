@@ -17,6 +17,7 @@ public:
     static void generateInstanceUID();
     static void generateRandomUID();
 
+    static bool addJournalEntry(QString origPatientName, QString origMRN, QString origACC, QString modPatientName, QString modMRN, QString modACC);
 };
 
 #endif

@@ -335,6 +335,18 @@ bool processTags(DcmDataset* dataset, DcmMetaInfo* metainfo)
         dataset->putAndInsertString(DCM_StudyInstanceUID, RTI->newStudyUID.toUtf8(), OFTrue);
     }
 
+    // Create journal entry based on project name
+    if (!RTI->journalEntryCreated) {
+        QString origPatientName = "";
+        QString origMRN = "";
+        QString origACC = "";
+        QString modPatientName = "";
+        QString modMRN = "";
+        QString modACC = "";
+        Helper::addJournalEntry(origPatientName, origMRN, origACC, modPatientName, modMRN, modACC);
+        RTI->journalEntryCreated = true;
+    }
+
     return true;
 }
 
@@ -458,7 +470,7 @@ int main(int argc, char *argv[])
 
     if (argc < 2)
     {
-        OUT("Usage: [input folder] [output folder]")
+        OUT("Usage: [input folder] [output folder] [persistent folder]")
         OUT("")
         return 1;
     }
@@ -475,6 +487,16 @@ int main(int argc, char *argv[])
     {
         OUT("ERROR: Input or output folder does not exist")
         return 1;
+    }
+
+    if (argc > 2) {
+        RTI->persistentFolder = QString(argv[3]);
+        RTI->persistentDir.setPath(RTI->persistentFolder);
+        if (!RTI->persistentDir.exists())
+        {
+            OUT("ERROR: Persistent folder does not exist")
+            return 1;
+        }    
     }
 
     if (!readSettings()) 

@@ -152,3 +152,23 @@ QString Helper::getFakeACC()
     QDateTime refDate(QDate(2013, 4, 12), QTime(11, 13, 33));
     return QString::number(QDateTime::currentMSecsSinceEpoch()-refDate.toMSecsSinceEpoch());
 }
+
+
+bool Helper::addJournalEntry(QString origPatientName, QString origMRN, QString origACC, QString modPatientName, QString modMRN, QString modACC)
+{
+    if (RTI->settings.generateJournal) {
+        if (!RTI->isPersistentAvailable()) {
+            OUT("ERROR: Journal creation requested but persistent folder not available!")
+            return false;
+        }
+        if (RTI->settings.projectName.isEmpty()) {
+            OUT("ERROR: Journal creation requested but project name missing!")
+            return false;
+        }
+
+        // TODO
+
+    } 
+
+    return true;
+}

@@ -3,8 +3,9 @@
 
 #include <QtCore>
 
-#define VERSION "0.1.0-beta.8"
+#define VERSION "0.1.0-beta.9"
 #define TASKFILE "task.json"
+#define COUNTERFILE "counters.json"
 #define SEPARATOR '#'
 #define AET_PREFIX "az_"
 

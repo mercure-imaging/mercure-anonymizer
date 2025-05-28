@@ -17,9 +17,11 @@ public:
 
     QString inputFolder;
     QString outputFolder;
+    QString persistentFolder;
 
     QDir inputDir;
     QDir outputDir;
+    QDir persistentDir;
 
     QFileInfoList inputFiles;
 
@@ -37,7 +39,16 @@ public:
     QString hashACC;
     QString accUsedForHash;
 
+    int persistentCounter;
+    bool counterMacroFound;
+    bool journalEntryCreated;
+
     int processedFiles;
+
+    bool isPersistentAvailable() 
+    {
+        return (!persistentFolder.isEmpty()); 
+    }
 
 private:
     static Runtime* pSingleton;

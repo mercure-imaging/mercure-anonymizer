@@ -21,6 +21,7 @@ Runtime::Runtime()
 {
     inputFolder = "";
     outputFolder = "";
+    persistentFolder = "";
     inputFiles.clear();
 
     newStudyUID = "";
@@ -35,6 +36,9 @@ Runtime::Runtime()
 
     hashACC = "";
     accUsedForHash = "";
+    persistentCounter = 0;
+    counterMacroFound = false;
+    journalEntryCreated = false;
 
     dateString = QDateTime::currentDateTime().toString("MMddyyyy");
     timeString = QDateTime::currentDateTime().toString("hhmmsszzz");

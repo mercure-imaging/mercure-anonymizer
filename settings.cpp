@@ -22,6 +22,7 @@ void TagEntry::replaceParameterMacros()
     replaceMacro(SET_MACRO_FAKE_ACC, RTI->fakeACC); 
     replaceMacro(SET_MACRO_HASH_ACC, RTI->hashACC);        
     replaceMacro(SET_MACRO_FAKE_NAME, RTI->fakeName);    
+    replaceMacro(SET_MACRO_COUNTER, QString::number(RTI->persistentCounter));    
 }
 
 
@@ -31,6 +32,9 @@ void TagEntry::replaceMacro(QString macro, QString value)
     while (parameter.indexOf(macro)>=0)
     {
         parameter.replace(parameter.indexOf(macro), macro.size(), value);
+        if (macro==SET_MACRO_COUNTER) {
+            RTI->counterMacroFound = true;
+        }
     }
 }
 
@@ -90,6 +94,7 @@ bool ModuleSettings::prepareSettings(QString projectID)
     removeCurves = true;
     removeOverlays = true;
     printAssignment = false;
+    generateJournal = false;
 
     // Read general settings
     if (generalSettings.contains("name")) 
@@ -171,6 +176,13 @@ bool ModuleSettings::prepareSettings(QString projectID)
             printAssignment=true;
         }
     }
+    if (generalSettings.contains("generate_journal")) 
+    {
+        if (generalSettings.value("generate_journal").toString().toLower()=="true")
+        {
+            generateJournal=true;
+        }
+    }
 
     // Read project specific settings
     if ((!cleanProjectID.isEmpty()) &&  (RTI->settingsJson.contains(cleanProjectID)))
@@ -250,6 +262,17 @@ bool ModuleSettings::prepareSettings(QString projectID)
                 removeOverlays=true;
             }
         }
+        if (projectSettings.contains("generate_journal")) 
+        {
+            if (projectSettings.value("generate_journal").toString().toLower()=="false")
+            {
+                generateJournal=false;
+            }
+            else
+            {
+                generateJournal=true;
+            }
+        }    
     }
     else
     {
@@ -292,6 +315,7 @@ bool ModuleSettings::prepareSettings(QString projectID)
         }        
     }
 
+    getCounterAndIncrease();
     calculateHashACC();
     replaceAllParameterMacros();
 
@@ -328,6 +352,11 @@ bool ModuleSettings::prepareSettings(QString projectID)
         printTags();
     }
     
+    if ((RTI->counterMacroFound) && (!RTI->isPersistentAvailable())) {
+        OUT("ERROR: Counter macro used but persistent folder not available!")
+        return false;
+    }
+
     isPrepared=true;
     return true;
 }
@@ -452,4 +481,57 @@ void ModuleSettings::printTags()
     }
     OUT("--------------------------------------------------------------------------------------")
     OUT("")
+}
+
+
+bool ModuleSettings::getCounterAndIncrease() 
+{
+    RTI->persistentCounter = 0;
+
+    if (!RTI->isPersistentAvailable()) {
+        return true;
+    }
+    if (RTI->settings.projectName.isEmpty()) {
+        OUT("ERROR: No project name set. Unable to read persistent counter.")
+        return false;
+    }
+    if (!RTI->persistentDir.exists())
+    {
+        OUT("ERROR: Persistent folder not accessible")
+        return false; 
+    }
+
+    if (!RTI->persistentDir.exists(COUNTERFILE))
+    {
+        OUT("INFO: Counter file not found. Creating new file.")
+    } 
+    else 
+    {
+        QFile counterFile(RTI->persistentDir.filePath(COUNTERFILE));
+        if (!counterFile.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+            OUT("ERROR: Unable to open counter file")
+            return false;
+        }
+        QByteArray data = counterFile.readAll();
+        counterFile.close();    
+
+        QJsonParseError errorPtr;
+        QJsonDocument doc = QJsonDocument::fromJson(data, &errorPtr);
+        if (doc.isNull()) 
+        {
+            OUT("ERROR: Unable to parse counter file")
+            return false;
+        }
+        // QJsonObject root = doc.object();
+        // if (!root.contains("process"))
+        // {
+        //     OUT("ERROR: Invalid task file")
+        //     return false;
+        // }
+    }
+
+
+
+    return true;
 }
